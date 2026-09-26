@@ -1,6 +1,6 @@
 # Competitor Teardown Template
 
-Owner: Samuel. Phase 0 covers Vowthread and Inawo (2 hours). EventPark is done in Phase 1 week 1. Sign up as **both a couple and a vendor** on each. Screenshot everything and put the date on the screenshot filename.
+Owner: Samuel. Vowthread and Inawo first (2 hours, by 11 Oct), then EventPark (1 hour, by 18 Oct), all before the 25 Oct gate. Sign up as **both a couple and a vendor** on each. Screenshot everything and put the date on the screenshot filename.
 
 Every row below needs evidence: a screenshot, a URL, or a dated quote. "I think they do X" is not a row.
 
@@ -40,9 +40,9 @@ JUDGEMENT
 
 | Name | Status | Owner | Due |
 |---|---|---|---|
-| Vowthread | not started | Samuel | Phase 0 (by 4 Oct) |
-| Inawo | not started | Samuel | Phase 0 (by 4 Oct) |
-| EventPark | not started | Samuel | Phase 1 week 1 (by 11 Oct) |
+| Vowthread | not started | Samuel | by 11 Oct |
+| Inawo | not started | Samuel | by 11 Oct |
+| EventPark | not started | Samuel | by 18 Oct |
 
 The LENS pass of 25 Sep 2026 noted that EventPark already offers a verified vendor register. Confirm what "verified" means on the page before repeating that claim anywhere.
 

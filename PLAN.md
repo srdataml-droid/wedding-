@@ -1,99 +1,84 @@
 # Together: Plan of Record
 
-Owner: both founders. Change this file only through an entry in `DECISIONS.md`.
+Owner: Samuel. Change this file only through an entry in `DECISIONS.md`.
 
-Dates in **bold** were fixed in the council session of 26 Sep 2026. Dates marked *(proposed)* were not in that session's output and are a first draft for both founders to confirm in Phase 0.
+Revised 26 Sep 2026 after D-005 (one founder), D-006 (build started) and D-008 (deployment). Dates in **bold** are fixed. Dates marked *(proposed)* are a draft to confirm at the next gate.
 
 ## 1. Scope and constraints
 
 - **Lagos only. Vendors first. One paid transaction before any new category.** (D-001)
-- Samuel's hours: 3 a week in Phase 1, 4 in Phase 2, 6 in Phase 3. Anything above that displaces the Novaxis AI receptionist build, the HVAC outreach, or the Atelier Haute deployment, and the trade is written in `DECISIONS.md` first. (D-002)
-- No code before the Phase 1 gate. (D-003)
-- [Sister]'s hours: agreed in Phase 0 and recorded in `DECISIONS.md`.
-- Hardware and stack, for when building starts: Next.js, Supabase/Postgres, Vercel. No ML in Phases 2 or 3. This is a trust and operations problem, not a model problem.
+- Samuel's hours: about 3 a week until 25 Oct, 4 until the end of November, 6 in December. Above that displaces the Novaxis AI receptionist build, the HVAC outreach or the Atelier Haute deployment, and the trade is written in `DECISIONS.md` first. (D-002)
+- Building and recruiting share those hours. (D-006)
+- Stack: Next.js, Supabase/Postgres, Vercel. No ML. This is a trust and operations problem, not a model problem.
 
 ## 2. The hypothesis under test
 
-> Lagos wedding vendors lose enough money or time to a specific, nameable trust problem (unpaid balances, no-show clients, fake enquiries, being undercut by unverified competitors, or something we have not heard yet) that at least one of them will pay for a narrow fix, and couples on the other side will use what we build because of it.
+> Lagos wedding vendors lose enough money or time to a specific, nameable trust problem (unpaid balances, no-show clients, fake enquiries, being undercut by unverified competitors, or something not yet heard) that at least one of them will pay for a narrow fix, and couples will use what gets built because of it.
 
-This is a hypothesis. Phase 1 exists to replace the bracketed list with what vendors actually say.
+Discovery exists to replace the bracketed list with what vendors actually say.
 
-## 3. Phases
+## 3. How work is organised: slices, not phases
 
-### Phase 0: Alignment. 26 Sep to 4 Oct 2026. Samuel 3 h.
+Each slice is the smallest thing that can be shown to a vendor, built and shipped before the next one starts. Discovery runs alongside every slice and feeds the gates.
 
-| # | Task | Owner | Time |
-|---|---|---|---|
-| 0.1 | Send [Sister] the three honest sentences below and the hour cap. | Samuel | 30 min |
-| 0.2 | Paste `OPERATING_PROMPT.md` into a shared chat or Project. | Samuel | 10 min |
-| 0.3 | Book the first three vendor conversations for the week of 5 Oct. | [Sister] | 1 h |
-| 0.4 | Tear down Vowthread and Inawo as both couple and vendor. | Samuel | 2 h |
-| 0.5 | Put **25 Oct 2026** in both calendars as the Phase 1 exit, kill criteria attached. | Both | 5 min |
-| 0.6 | [Sister] states her own weekly hour cap. Record it in `DECISIONS.md`. | [Sister] | 10 min |
+### Slice 1: Vendor sign-up page. 26 Sep to 11 Oct 2026 *(proposed end)*
 
-**The three honest sentences** (drafted from the council rulings; edit into Samuel's own voice before sending):
+**Build: done 26 Sep.** Live at https://together-seven-nu.vercel.app. One page, one form (business name, category, area, WhatsApp, Instagram, years active), one Supabase table. No auth, no admin screen, no email. Samuel reads sign-ups in the Supabase table editor. Every push to the branch deploys.
 
-1. I can give this about 3 hours a week right now, rising to 6 by December, and not more without dropping something I have already committed to.
-2. We start with Lagos vendors only, and we do not add a second category until one person has paid us money.
-3. The vision is Nigeria and then Africa, but the next 90 days are deliberately small, because the teams before us went wide and lost.
+**Market (Samuel, about 2 h a week):**
+- Go where vendors are, in person and on Instagram. Show the page, ask them to sign up on the spot, and run the vendor conversation from `research/interview-guides.md` with the ones who have time.
+- Ask every vendor who signs up for one other vendor to talk to.
 
-**Exit:** all six tasks done. No gate review needed; the Simplifier waives ceremony at this stakes level.
+**Done when:** 10 vendors in the table, at least 3 signed up in person, at least 3 vendor conversations written up in `research/notes/`.
 
-### Phase 1: Discovery. 5 Oct to **25 Oct 2026**. Samuel 3 h/week.
+### Slice 2: Verified list. 12 Oct to **25 Oct 2026**
 
-Targets (proposed; confirm in Phase 0):
+Only after Slice 1 is done. A public list of signed-up vendors, each marked "verified" only after Samuel has met them or video-called them and checked one piece of evidence (a past client's number, a delivered job's photos with a date). The check is manual and written down. No software decides who is verified. The page will need a read policy limited to verified rows (see D-008).
 
-| Evidence | Target | Owner | Guide |
-|---|---|---|---|
-| Vendor conversations, at least 3 categories | 10 | [Sister] | `research/interview-guides.md` |
-| Couple conversations, married in last 18 months or planning now | 5 | Either | `research/interview-guides.md` |
-| Teardowns as couple and as vendor | Vowthread, Inawo, EventPark | Samuel | `research/teardown-template.md` |
-| The four teams that went wide, with sources | list complete | Samuel | `research/teardown-template.md` |
+**Done when:** 5 vendors verified and listed, and 2 couple conversations written up.
 
-**Exit gate (25 Oct, both founders plus a BENCH pass):**
+### Phase 1 gate. **25 Oct 2026.** Samuel plus a BENCH pass.
 
-- The problem statement in section 2 is rewritten in vendors' own words, with at least 3 verbatim quotes pointing at the same problem.
-- At least one vendor has said what they currently spend (money or hours) on that problem.
-- At least 2 couples have described, unprompted, a trust failure with a vendor.
-- The teardowns show what EventPark's verified register does and does not do, with screenshots dated.
-- A named smallest-thing-that-works for Phase 2 that fits 4 h/week and needs no code in its first week.
+- Has any vendor named a problem they spend money or hours on today? Quote them.
+- Has any vendor asked for something the page does not do? That is the next slice.
+- Have 2 couples described, unprompted, a trust failure with a vendor?
+- Do the teardowns (Vowthread, Inawo, EventPark) show a competitor already doing this well in Lagos with paying vendors?
 
-**Kill criteria (any one triggers a stop and a return to ideation, not a rescue):**
+**Kill criteria (any one stops the build and sends the idea back to ideation, not a rescue):**
+- Fewer than 6 vendors signed up despite showing the page in person.
+- No vendor names a problem they spend money or hours on today.
+- A competitor already does the verified list well, in Lagos, with paying vendors.
+- Logged hours above budget two weeks running with no trade recorded in `DECISIONS.md`. This is a CARE kill, not a product one.
 
-- Fewer than 6 vendor conversations completed. The market side cannot run at this tempo; fix that before anything else.
-- No vendor names a problem they spend money or hours on today. The vendor wedge is wrong.
-- Zero couple conversations completed. The BENCH weak point stands and Phase 2 cannot start.
-- The teardowns show a competitor already doing the smallest-thing-that-works well, in Lagos, with paying vendors. Being second and slower is not a plan.
+### Slice 3: What vendors asked for. 26 Oct to 29 Nov 2026 *(proposed)*. 4 h/week.
 
-### Phase 2: Smallest thing that works. 26 Oct to 29 Nov 2026 *(proposed)*. Samuel 4 h/week.
+Decided at the gate from what vendors said. Manual first: a WhatsApp number and a spreadsheet for a week before any code.
 
-Contents are decided at the Phase 1 gate, not now. Standing rules for whatever it is:
+**Done when:** 5 vendors using it two weeks running without being chased, and one saying they would pay.
 
-- Week 1 is manual: a WhatsApp number, a spreadsheet, and [Sister] doing the thing by hand for 3 to 5 vendors.
-- Code is written only for the step that the manual version cannot keep up with.
-- Small diffs, each one read and verified before the next.
-- **Exit gate:** 5 vendors using the manual or semi-manual version for two consecutive weeks without being chased, and at least one saying they would pay.
+### Slice 4: One paid transaction. 30 Nov to 25 Dec 2026 *(proposed)*. 6 h/week.
 
-### Phase 3: One paid transaction. 30 Nov to 25 Dec 2026 *(proposed)*. Samuel 6 h/week.
+Name a price. Ask for it. Record every yes and no with the reason. Done when one vendor has paid, with a dated screenshot of the transfer.
 
-- Name a price. Ask for it. Record every yes and every no with the reason.
-- **Exit gate:** one real payment, from a vendor, for the thing built in Phase 2. Screenshot of the transfer, dated.
-- **Escalation:** the moment any money moves in either direction, or the product carries either founder's real name publicly, Samuel decides directly, outside council process.
+**Escalation:** the moment money moves in either direction, or the product carries Samuel's real name or Novaxis publicly, Samuel decides directly, outside any process.
 
-## 4. Gates and who signs
+## 4. Discovery, alongside every slice
 
-| Gate | Date | Who signs | What BENCH asks |
-|---|---|---|---|
-| Phase 1 exit | **25 Oct 2026** | Both founders | Did any kill criterion trigger? Is the problem in vendors' words? Is there a couple-side signal? |
-| Phase 2 exit | 29 Nov 2026 *(proposed)* | Both founders | Are vendors using it unchased? Can Samuel defend every piece of it to a judge who asks "why?" |
-| Phase 3 exit | 25 Dec 2026 *(proposed)* | Both founders | Did money move? What does the 90-day retrospective say? |
+| Evidence | Target by 25 Oct | Guide |
+|---|---|---|
+| Vendor conversations, at least 3 categories | 5 | `research/interview-guides.md` |
+| Couple conversations, married in last 18 months or planning | 2 | `research/interview-guides.md` |
+| Teardowns as couple and vendor | Vowthread, Inawo, EventPark | `research/teardown-template.md` |
+| The four teams that went wide, with sources | list complete | `research/teardown-template.md` |
 
-## 5. Known weak points (BENCH score at intake: 7/10)
+## 5. Known weak points (BENCH at intake: 7/10; after D-006: 6/10)
 
-1. **The verified register is copyable.** EventPark already does it. The only edge is being faster and on the ground, and that is a race, not a moat. Phase 1 must surface a second reason to exist or the plan goes back to ideation.
-2. **No couple has been interviewed.** The vendor wedge could clear every gate and still fail on the other side. Fixed by the couple target in Phase 1.
-3. **Two-person dependency on one person's calendar.** Most Phase 1 evidence depends on [Sister]'s reply time and availability, which has not been agreed. Fixed by task 0.6.
+1. **The verified list is copyable.** EventPark already does something like it. The edge is being faster and on the ground, and that is a race, not a moat. The gate must surface a second reason to exist.
+2. **Building before listening.** D-006 accepted this. The mitigation is that Slice 1 is deliberately tiny and doubles as a recruiting tool.
+3. **One person, three hours.** Recruiting in person and coding share the same hours. The CARE kill criterion above is the guard.
+4. **No couple has been interviewed.** The vendor wedge could clear every gate and still fail on the couple side.
+5. **A free database can pause.** Supabase pauses free projects after a week with too little activity, and a paused project fails the next sign-up. Real visits keep it awake, and a restore is one click in the dashboard. See D-007.
 
-## 6. Explicitly out of scope until a paid transaction exists
+## 6. Out of scope until a paid transaction exists
 
-Couple-facing app. Venues. Transport. Registry or gifting. Payments or escrow. Any city other than Lagos. Any country other than Nigeria. Vendor registration at scale. Any ML.
+Couple-facing app. Venues. Transport. Registry or gifting. Payments or escrow. Vendor accounts or login. Any city other than Lagos. Any country other than Nigeria. Any ML.

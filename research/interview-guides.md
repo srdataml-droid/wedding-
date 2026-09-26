@@ -8,9 +8,9 @@ Rules for both guides:
 - 20 to 30 minutes. Stop on time.
 - Fill in the note template the same day.
 
-## A. Vendor guide (owner: [Sister])
+## A. Vendor guide
 
-Target for Phase 1: 10 vendors across at least 3 categories (for example photographers, caterers, decorators, MCs, makeup, planners). Prioritise vendors who have done at least 10 weddings.
+Target by 25 Oct: 5 vendors across at least 3 categories (for example photographers, caterers, decorators, MCs, makeup, planners). Prioritise vendors who have done at least 10 weddings.
 
 **Opening (2 min)**
 - What do you do, and how long have you been doing weddings in Lagos?
@@ -36,9 +36,9 @@ Target for Phase 1: 10 vendors across at least 3 categories (for example photogr
 - Who else should I talk to?
 - Can I come back to you when we have something to show?
 
-## B. Couple guide (owner: either founder)
+## B. Couple guide
 
-Target for Phase 1: 5 couples, married in the last 18 months or actively planning. Either partner is fine.
+Target by 25 Oct: 2 couples, married in the last 18 months or actively planning. Either partner is fine.
 
 **Opening (2 min)**
 - When was or is the wedding, and roughly how many guests?
