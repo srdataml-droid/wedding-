@@ -18,6 +18,7 @@ One founder: Samuel. He does engineering and market work himself. There is no se
 ## Code
 
 - App lives in `web/`. Next.js (App Router, TypeScript, Tailwind), Supabase/Postgres, deployed on Vercel. Python and FastAPI only if a backend job cannot be done in the Next.js app.
+- `main` is production. Every push to it deploys the live site at https://together-seven-nu.vercel.app. Any other branch gets its own preview URL, so try changes there first.
 - Database changes are SQL files in `web/supabase/migrations/`, applied in order. Never change the schema any other way.
 - Secrets go in `web/.env.local` (gitignored). Never commit a key.
 - Samuel's machine has no dedicated GPU and about 13 GB of RAM. Flag anything that needs heavy local compute.
