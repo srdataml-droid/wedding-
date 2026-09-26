@@ -10,6 +10,8 @@ Slice 1: the vendor sign-up page. One page, one table.
 
 There is no secret key anywhere in this app. Row Level Security lets the publishable key add a sign-up and read the count, and nothing else. Sign-ups appear in the `vendors` table in the dashboard's table editor.
 
+The Supabase security advisor warns that `vendor_count()` is a security definer function callable by the anonymous role. That is intentional: the function returns only the number of rows, and it is how the page reads the count without any read access to the table.
+
 ## Run it
 
 ```bash
