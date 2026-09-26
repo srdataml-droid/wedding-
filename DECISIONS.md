@@ -10,10 +10,10 @@ Format: ID, date, decision, who decided, objection, why overruled, revisit when.
 
 - **Date:** 26 Sep 2026
 - **Decided by:** Chair, on the Simplifier's veto. BRAIN, OPS, CARE, STAGE and BENCH convened. LENS pass of 25 Sep 2026 fed in.
-- **Decision:** For 26 Sep to 25 Dec 2026 the project is Lagos wedding vendors only. No other category, city or country enters the plan until one real payment has been received. "Nigeria, then Africa" stays in the vision sentence told to [Sister], not in the plan.
-- **Objection (Ideator):** Vendor registration, transport, venues and all of Africa should be in scope. A narrow start could look small to [Sister] and undersell the ambition.
-- **Why overruled:** At least four earlier teams went wide and did not win. Going wide is exactly what a solo engineer with a full-time job cannot fund in hours. The ambition is preserved in the vision sentence; the plan stays narrow.
-- **Revisit when:** one paid transaction exists, or the Phase 1 gate sends the project back to ideation.
+- **Decision:** For 26 Sep to 25 Dec 2026 the project is Lagos wedding vendors only. No other category, city or country enters the plan until one real payment has been received. "Nigeria, then Africa" stays in the vision sentence, not in the plan.
+- **Objection (Ideator):** Vendor registration, transport, venues and all of Africa should be in scope. A narrow start could look small.
+- **Why overruled:** At least four earlier teams went wide and did not win. Going wide is exactly what a solo engineer with a full-time job cannot fund in hours.
+- **Revisit when:** one paid transaction exists.
 
 ## D-002. Hour budget
 
@@ -21,28 +21,38 @@ Format: ID, date, decision, who decided, objection, why overruled, revisit when.
 - **Decided by:** CARE, accepted by Chair.
 - **Decision:** Samuel gives this about 3 hours a week in Phase 1, 4 in Phase 2, 6 in Phase 3. The Novaxis AI receptionist build, the HVAC outreach and the Atelier Haute deployment share the same hours. Anything above the budget is traded on paper here, not by drift.
 - **Objection:** none recorded.
-- **Revisit when:** any phase gate, or if the Revluma contract changes.
+- **Revisit when:** any phase gate, or if the Revluma contract changes. See D-006, which strains this budget.
 
 ## D-003. No code before the Phase 1 gate
 
-- **Date:** 26 Sep 2026
+- **Status: OVERRULED by D-006 on 26 Sep 2026.** Kept for the record.
 - **Decided by:** Simplifier, accepted by Chair.
-- **Decision:** Until 25 Oct 2026 the work is conversations and teardowns. Build ideas are written in the backlog section below and not acted on. When building starts, week one is manual.
-- **Objection:** none recorded, but expected from Samuel's own engineering instinct. Recorded pre-emptively: building early feels like progress and is the cheapest way to skip the Blueprint gate.
-- **Revisit when:** the Phase 1 gate passes.
+- **Decision:** Until 25 Oct 2026 the work is conversations and teardowns.
 
-## D-004. [Sister]'s weekly hour cap
+## D-004. Second founder's hour cap
 
-- **Date:** pending, Phase 0 task 0.6
-- **Decided by:** [Sister]
-- **Decision:** _to be filled in_
-- **Revisit when:** any phase gate.
+- **Status: VOID.** See D-005. There is no second founder.
+
+## D-005. Solo founder. The "sister" in the first draft was a wrong assumption
+
+- **Date:** 26 Sep 2026
+- **Decided by:** Samuel.
+- **Decision:** There is one founder. Samuel does engineering and market work himself. He will recruit vendors directly from Lagos markets and trade communities, and ask early vendors to bring others. Every task in `PLAN.md` is owned by Samuel. Interview targets are cut to fit one person's hours.
+- **How the error happened:** an earlier chat assumed a sister was the market-side partner and labelled it an assumption. The first draft of this repo carried it in as fact without checking. Recorded so the same class of error (an assumption promoted to a founder) is caught at intake next time.
+- **Revisit when:** a real partner joins. That is a new decision with its own entry.
+
+## D-006. Building starts now, in parallel with discovery
+
+- **Date:** 26 Sep 2026
+- **Decided by:** Samuel, overruling D-003 directly as founder.
+- **Decision:** Code starts on 26 Sep 2026. The first build is the smallest thing a vendor can be shown in a market: a one-page site with a vendor sign-up form that writes to a database. Discovery (vendor and couple conversations, teardowns) runs alongside it and still feeds the 25 Oct gate.
+- **Objection (Simplifier, CARE):** Building before anyone has said what they would pay for risks building the wrong thing, and it doubles the load on a 3-hour week: recruiting vendors and writing code now share the same hours. The Phase 1 gate loses its main purpose, which was to decide what to build.
+- **Why overruled:** The founder wants momentum and something concrete to show vendors when recruiting them. A live sign-up page is also a recruiting tool, so the two lines of work reinforce each other rather than compete. The risk is accepted with two conditions: the first build stays at one page and one table until vendors are using it, and the 25 Oct gate still asks whether any vendor has named a problem they would pay to fix.
+- **Revisit when:** 25 Oct 2026, or when Samuel's logged hours exceed the budget two weeks in a row.
 
 ---
 
-## Backlog (ideas parked by D-001 and D-003, not in the plan)
-
-Write the idea, the date, and who raised it. Nothing here is scheduled.
+## Backlog (parked by D-001, not in the plan)
 
 | Date | Raised by | Idea | Why parked |
 |---|---|---|---|
