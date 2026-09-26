@@ -28,19 +28,26 @@ export async function signUpVendor(formData: FormData) {
     redirect("/?error=whatsapp");
   }
 
-  const { error } = await supabaseAdmin().from("vendors").insert({
-    business_name: businessName,
-    category,
-    area,
-    whatsapp,
-    instagram: instagram || null,
-    years_active: Number.isFinite(yearsActive) ? yearsActive : null,
-  });
-
-  if (error) {
-    console.error("vendor insert failed", error);
-    redirect("/?error=save");
+  let failed = false;
+  try {
+    const { error } = await supabaseAdmin().from("vendors").insert({
+      business_name: businessName,
+      category,
+      area,
+      whatsapp,
+      instagram: instagram || null,
+      years_active: Number.isFinite(yearsActive) ? yearsActive : null,
+    });
+    if (error) {
+      console.error("vendor insert failed", error);
+      failed = true;
+    }
+  } catch (err) {
+    console.error("vendor insert failed", err);
+    failed = true;
   }
 
+  // redirect() throws on purpose, so it stays outside the try block.
+  if (failed) redirect("/?error=save");
   redirect("/thanks");
 }

@@ -2,15 +2,21 @@
 
 Slice 1: the vendor sign-up page. One page, one table.
 
+## Set up Supabase (once, about 5 minutes)
+
+1. Create a project at supabase.com. It does not need to be linked to GitHub.
+2. Open the SQL editor, paste `supabase/migrations/0001_vendors.sql`, run it.
+3. Open Settings > API Keys. Copy the project URL and the secret key (`sb_secret_...`).
+
+Sign-ups appear in the `vendors` table in the dashboard's table editor.
+
 ## Run it
 
 ```bash
 npm install
-cp .env.example .env.local   # then fill in the two values from Supabase
+cp .env.example .env.local   # then paste the two values from Supabase
 npm run dev
 ```
-
-Apply `supabase/migrations/0001_vendors.sql` to the Supabase project once, in the SQL editor or with the Supabase CLI. Submissions appear in the `vendors` table in the dashboard.
 
 ## Check before committing
 
@@ -22,4 +28,8 @@ npx tsc --noEmit
 
 ## Deploy
 
-Vercel, root directory `web`, with the same two env vars set in the project settings.
+Vercel, root directory `web`, with `SUPABASE_URL` and `SUPABASE_SECRET_KEY` set in the project's environment variables.
+
+## If the free Supabase project pauses
+
+Supabase pauses free projects after a week with too little database activity. Every visit to the page reads the vendor count, so real traffic keeps it awake. If it pauses anyway, open the project in the Supabase dashboard and click restore; sign-ups made while it was paused were not saved, so the vendor will have seen an error and should be asked to try again.

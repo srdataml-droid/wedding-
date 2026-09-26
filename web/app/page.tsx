@@ -1,5 +1,26 @@
 import { signUpVendor } from "./actions";
 import { CATEGORIES } from "@/lib/categories";
+import { supabaseAdmin } from "@/lib/supabase";
+
+const SHOW_COUNT_FROM = 5;
+
+// Every visit reads the count, which keeps a free Supabase project active and
+// gives vendors a reason to trust the list once it has a few names on it.
+async function vendorCount(): Promise<number | null> {
+  try {
+    const { count, error } = await supabaseAdmin()
+      .from("vendors")
+      .select("*", { count: "exact", head: true });
+    if (error) {
+      console.error("vendor count failed", error);
+      return null;
+    }
+    return count;
+  } catch (err) {
+    console.error("vendor count failed", err);
+    return null;
+  }
+}
 
 const ERRORS: Record<string, string> = {
   missing: "Please fill in your business name, category, area and WhatsApp number.",
@@ -11,7 +32,7 @@ const inputClass =
   "w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-base text-zinc-900 outline-none focus:border-zinc-900";
 
 export default async function Page({ searchParams }: PageProps<"/">) {
-  const params = await searchParams;
+  const [params, count] = await Promise.all([searchParams, vendorCount()]);
   const errorKey = typeof params.error === "string" ? params.error : null;
   const error = errorKey ? ERRORS[errorKey] : null;
 
@@ -26,6 +47,11 @@ export default async function Page({ searchParams }: PageProps<"/">) {
         Sign up below. It takes one minute, and it is free while we build the
         list.
       </p>
+      {count !== null && count >= SHOW_COUNT_FROM ? (
+        <p className="mt-2 text-sm font-medium text-zinc-900">
+          {count} vendors have signed up so far.
+        </p>
+      ) : null}
 
       {error ? (
         <p className="mt-6 rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-800">
