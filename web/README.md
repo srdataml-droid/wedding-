@@ -30,7 +30,7 @@ npx tsc --noEmit
 
 ## Deploy
 
-Live at https://together-seven-nu.vercel.app (Vercel project `together`, root directory `web`). Production deploys from the branch `claude/together-operating-prompt-5h6e2k`; if that branch is ever renamed or merged away, change the production branch in the Vercel project settings. `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` are set in the project's environment variables.
+Live at https://together-seven-nu.vercel.app (Vercel project `together`, root directory `web`). Production deploys from `main`, set under the project's Git settings in Vercel. `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` are set in the project's environment variables.
 
 ## If the free Supabase project pauses
 

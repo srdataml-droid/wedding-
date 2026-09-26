@@ -27,8 +27,9 @@ const ERRORS: Record<string, string> = {
   save: "Something went wrong saving your details. Please try again.",
 };
 
+const labelClass = "block text-sm font-medium text-ink";
 const inputClass =
-  "w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-base text-zinc-900 outline-none focus:border-zinc-900";
+  "mt-1.5 w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-base text-ink placeholder:text-muted/70 outline-none transition focus:border-wine focus:ring-2 focus:ring-wine/20";
 
 export default async function Page({ searchParams }: PageProps<"/">) {
   const [params, count] = await Promise.all([searchParams, vendorCount()]);
@@ -36,35 +37,46 @@ export default async function Page({ searchParams }: PageProps<"/">) {
   const error = errorKey ? ERRORS[errorKey] : null;
 
   return (
-    <main className="mx-auto w-full max-w-md px-4 py-10">
-      <h1 className="text-2xl font-semibold text-zinc-900">Together</h1>
-      <p className="mt-2 text-zinc-700">
-        A list of Lagos wedding vendors that couples can trust. Every vendor on
-        it has been met or called, and checked, by a real person.
-      </p>
-      <p className="mt-2 text-zinc-700">
-        Sign up below. It takes one minute, and it is free while we build the
-        list.
-      </p>
-      {count !== null && count >= SHOW_COUNT_FROM ? (
-        <p className="mt-2 text-sm font-medium text-zinc-900">
-          {count} vendors have signed up so far.
+    <main className="mx-auto w-full max-w-md px-4 pb-16 pt-10">
+      <header>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-wine">
+          Together
         </p>
-      ) : null}
+        <h1 className="mt-3 text-3xl font-semibold leading-tight text-ink">
+          Lagos wedding vendors couples can trust.
+        </h1>
+        <p className="mt-3 text-base leading-relaxed text-muted">
+          Every vendor on the list has been met or called, and checked, by a
+          real person. Sign up below. It takes one minute and is free while we
+          build the list.
+        </p>
+        {count !== null && count >= SHOW_COUNT_FROM ? (
+          <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-line bg-card px-3 py-1 text-sm font-medium text-ink">
+            <span className="h-2 w-2 rounded-full bg-wine" aria-hidden="true" />
+            {count} vendors signed up so far
+          </p>
+        ) : null}
+      </header>
 
       {error ? (
-        <p className="mt-6 rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-800">
+        <p
+          role="alert"
+          className="mt-6 rounded-lg border border-wine/30 bg-blush px-4 py-3 text-sm text-wine-deep"
+        >
           {error}
         </p>
       ) : null}
 
-      <form action={signUpVendor} className="mt-6 flex flex-col gap-4">
-        <label className="flex flex-col gap-1 text-sm font-medium text-zinc-800">
+      <form
+        action={signUpVendor}
+        className="mt-6 flex flex-col gap-4 rounded-2xl border border-line bg-card p-5 shadow-sm"
+      >
+        <label className={labelClass}>
           Business name
           <input name="business_name" required maxLength={120} className={inputClass} />
         </label>
 
-        <label className="flex flex-col gap-1 text-sm font-medium text-zinc-800">
+        <label className={labelClass}>
           What do you do?
           <select name="category" required defaultValue="" className={inputClass}>
             <option value="" disabled>
@@ -78,7 +90,7 @@ export default async function Page({ searchParams }: PageProps<"/">) {
           </select>
         </label>
 
-        <label className="flex flex-col gap-1 text-sm font-medium text-zinc-800">
+        <label className={labelClass}>
           Area of Lagos you work from
           <input
             name="area"
@@ -89,7 +101,7 @@ export default async function Page({ searchParams }: PageProps<"/">) {
           />
         </label>
 
-        <label className="flex flex-col gap-1 text-sm font-medium text-zinc-800">
+        <label className={labelClass}>
           WhatsApp number
           <input
             name="whatsapp"
@@ -101,13 +113,13 @@ export default async function Page({ searchParams }: PageProps<"/">) {
           />
         </label>
 
-        <label className="flex flex-col gap-1 text-sm font-medium text-zinc-800">
-          Instagram handle (optional)
+        <label className={labelClass}>
+          Instagram handle <span className="font-normal text-muted">(optional)</span>
           <input name="instagram" maxLength={60} placeholder="@yourbusiness" className={inputClass} />
         </label>
 
-        <label className="flex flex-col gap-1 text-sm font-medium text-zinc-800">
-          Years doing weddings (optional)
+        <label className={labelClass}>
+          Years doing weddings <span className="font-normal text-muted">(optional)</span>
           <input
             name="years_active"
             type="number"
@@ -120,13 +132,13 @@ export default async function Page({ searchParams }: PageProps<"/">) {
 
         <button
           type="submit"
-          className="mt-2 rounded-md bg-zinc-900 px-4 py-3 text-base font-medium text-white hover:bg-zinc-700"
+          className="mt-2 w-full rounded-lg bg-wine px-4 py-3 text-base font-semibold text-white transition hover:bg-wine-deep active:bg-wine-deep"
         >
           Sign up
         </button>
       </form>
 
-      <p className="mt-8 text-xs text-zinc-500">
+      <p className="mt-6 text-center text-xs leading-relaxed text-muted">
         We will only use your number to confirm your details and tell you when
         the list is live.
       </p>

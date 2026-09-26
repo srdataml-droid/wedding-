@@ -36,8 +36,8 @@ A vendor sign-up page, deployed 26 Sep 2026. Sign-ups land in the `vendors` tabl
 
 ## Where things live
 
-- Code: this repo, branch `claude/together-operating-prompt-5h6e2k`, which is also the Vercel production branch.
-- Hosting: Vercel project `together`, root directory `web`. Every push to the branch deploys.
+- Code: this repo. `main` is the trunk and the Vercel production branch. Work happens on short-lived branches merged into it.
+- Hosting: Vercel project `together`, root directory `web`. Every push to `main` deploys.
 - Database: Supabase project `xfxqlcmsfkbvbybkrppq`. No secret key is used anywhere; see D-008.
 
 ## Next actions
