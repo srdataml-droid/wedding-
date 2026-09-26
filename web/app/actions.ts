@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { supabaseAdmin } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase";
 import { CATEGORIES } from "@/lib/categories";
 
 function text(formData: FormData, name: string, max = 120) {
@@ -30,7 +30,7 @@ export async function signUpVendor(formData: FormData) {
 
   let failed = false;
   try {
-    const { error } = await supabaseAdmin().from("vendors").insert({
+    const { error } = await supabase().from("vendors").insert({
       business_name: businessName,
       category,
       area,

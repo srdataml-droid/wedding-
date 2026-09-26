@@ -60,6 +60,16 @@ Format: ID, date, decision, who decided, objection, why overruled, revisit when.
 - **Why overruled:** Samuel knows Supabase, it is his stack, and the dashboard table editor is the admin screen, so the app stays at one page. Mitigation: the page reads the vendor count on every visit, so real traffic is real activity; a paused project is restored from the dashboard in a minute. A daily ping from Vercel was considered and rejected: the free plan allows one run a day, which Supabase's own guidance suggests is too little, and it would be artificial traffic.
 - **Revisit when:** a vendor's sign-up is lost to a pause, or the Phase 1 gate.
 
+## D-008. The app uses the publishable key. No secret is deployed anywhere
+
+- **Date:** 26 Sep 2026
+- **Decided by:** Chair, during deployment. Samuel asked for the deployment to be done end to end.
+- **Decision:** The sign-up page talks to Supabase with the publishable key, which is designed to be public. Row Level Security allows exactly two things: adding a sign-up that is not self-marked as verified, and calling a function that returns the vendor count. Reading, changing or deleting rows is only possible from the dashboard.
+- **Why:** The Supabase connector can hand over the project URL and publishable key but, by design, never the secret key, and a secret should not travel through a chat. Removing the secret also removes something to leak or rotate.
+- **Objection (Backend Engineer):** Anyone holding the publishable key can add junk rows through the REST API directly, bypassing the form's validation.
+- **Why overruled:** The form is public anyway, so the same junk could be typed into it. At ten vendors, junk is deleted by hand in the dashboard. If spam appears, the fix is a check in the policy or a captcha on the form, not a secret.
+- **Revisit when:** spam rows appear, or Slice 2 needs the page to read vendor rows, which will need its own read policy limited to verified rows.
+
 ---
 
 ## Backlog (parked by D-001, not in the plan)

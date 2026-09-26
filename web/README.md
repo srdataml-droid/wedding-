@@ -5,10 +5,10 @@ Slice 1: the vendor sign-up page. One page, one table.
 ## Set up Supabase (once, about 5 minutes)
 
 1. Create a project at supabase.com. It does not need to be linked to GitHub.
-2. Open the SQL editor, paste `supabase/migrations/0001_vendors.sql`, run it.
-3. Open Settings > API Keys. Copy the project URL and the secret key (`sb_secret_...`).
+2. Open the SQL editor and run the files in `supabase/migrations/` in order.
+3. Open Settings > API Keys. Copy the project URL and the publishable key (`sb_publishable_...`).
 
-Sign-ups appear in the `vendors` table in the dashboard's table editor.
+There is no secret key anywhere in this app. Row Level Security lets the publishable key add a sign-up and read the count, and nothing else. Sign-ups appear in the `vendors` table in the dashboard's table editor.
 
 ## Run it
 
@@ -28,7 +28,7 @@ npx tsc --noEmit
 
 ## Deploy
 
-Vercel, root directory `web`, with `SUPABASE_URL` and `SUPABASE_SECRET_KEY` set in the project's environment variables.
+Vercel, root directory `web`, with `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` set in the project's environment variables.
 
 ## If the free Supabase project pauses
 

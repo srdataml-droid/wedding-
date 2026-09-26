@@ -1,6 +1,6 @@
 import { signUpVendor } from "./actions";
 import { CATEGORIES } from "@/lib/categories";
-import { supabaseAdmin } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase";
 
 const SHOW_COUNT_FROM = 5;
 
@@ -8,14 +8,13 @@ const SHOW_COUNT_FROM = 5;
 // gives vendors a reason to trust the list once it has a few names on it.
 async function vendorCount(): Promise<number | null> {
   try {
-    const { count, error } = await supabaseAdmin()
-      .from("vendors")
-      .select("*", { count: "exact", head: true });
+    const { data, error } = await supabase().rpc("vendor_count");
     if (error) {
       console.error("vendor count failed", error);
       return null;
     }
-    return count;
+    const count = Number(data);
+    return Number.isFinite(count) ? count : null;
   } catch (err) {
     console.error("vendor count failed", err);
     return null;
