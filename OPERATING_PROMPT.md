@@ -48,7 +48,7 @@ Other commitments on the same hours: the Novaxis AI receptionist build, the HVAC
 
 ## Where things stand
 
-**Slice 1 is live at https://together-seven-nu.vercel.app** (deployed 26 Sep 2026): a vendor sign-up page writing to a Supabase table. What remains of Slice 1 is market work. It is done when 10 vendors are in the table, at least 3 signed up in person, and 3 vendor conversations are written up. Then Slice 2, the verified list, then the **25 Oct 2026** gate. Kill criteria are in `PLAN.md`. If they trigger, say so plainly. Do not rescue the plan.
+**The full app is live at https://together-seven-nu.vercel.app** (27 Sep 2026, D-009): couples browse verified vendors, message them on WhatsApp and leave reviews; vendors sign up at `/join`; Samuel verifies vendors and approves reviews at `/admin`. What remains is market work: 10 vendors signed up, 5 verified, 3 vendor and 2 couple conversations written up, and at least one enquiry logged. Then the **25 Oct 2026** gate. Kill criteria are in `PLAN.md`. If they trigger, say so plainly. Do not rescue the plan.
 
 ## When Samuel runs this through his Council of Councils
 

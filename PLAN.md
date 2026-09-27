@@ -21,9 +21,13 @@ Discovery exists to replace the bracketed list with what vendors actually say.
 
 Each slice is the smallest thing that can be shown to a vendor, built and shipped before the next one starts. Discovery runs alongside every slice and feeds the gates.
 
-### Slice 1: Vendor sign-up page. 26 Sep to 11 Oct 2026 *(proposed end)*
+### Build status (D-009, 27 Sep 2026)
 
-**Build: done 26 Sep.** Live at https://together-seven-nu.vercel.app. One page, one form (business name, category, area, WhatsApp, Instagram, years active), one Supabase table. No auth, no admin screen, no email. Samuel reads sign-ups in the Supabase table editor. Every push to the branch deploys.
+The full trust loop is built and live at https://together-seven-nu.vercel.app. Couples browse verified vendors, message them on WhatsApp and leave reviews. Vendors sign up at `/join`. Samuel verifies vendors and approves reviews at `/admin`. This absorbs the build part of Slices 1 to 3. What is left before the gate is market work, and it is the same as before: vendors, conversations, couples.
+
+### Slice 1: Vendor sign-ups. 26 Sep to 11 Oct 2026 *(proposed end)*
+
+**Build: done.** Sign-up form at `/join`.
 
 **Market (Samuel, about 2 h a week):**
 - Go where vendors are, in person and on Instagram. Show the page, ask them to sign up on the spot, and run the vendor conversation from `research/interview-guides.md` with the ones who have time.
@@ -33,9 +37,9 @@ Each slice is the smallest thing that can be shown to a vendor, built and shippe
 
 ### Slice 2: Verified list. 12 Oct to **25 Oct 2026**
 
-Only after Slice 1 is done. A public list of signed-up vendors, each marked "verified" only after Samuel has met them or video-called them and checked one piece of evidence (a past client's number, a delivered job's photos with a date). The check is manual and written down. No software decides who is verified. The page will need a read policy limited to verified rows (see D-008).
+**Build: done 27 Sep (D-009).** A vendor goes public only after Samuel has met them or video-called them and checked one piece of evidence, such as a past client's number or a delivered job's photos with a date. He writes what he checked in `/admin`, and it shows on their profile. No software decides who is verified.
 
-**Done when:** 5 vendors verified and listed, and 2 couple conversations written up.
+**Done when:** 5 vendors verified and listed, 2 couple conversations written up, and at least one enquiry logged for a verified vendor.
 
 ### Phase 1 gate. **25 Oct 2026.** Samuel plus a BENCH pass.
 
@@ -81,4 +85,4 @@ Name a price. Ask for it. Record every yes and no with the reason. Done when one
 
 ## 6. Out of scope until a paid transaction exists
 
-Couple-facing app. Venues. Transport. Registry or gifting. Payments or escrow. Vendor accounts or login. Any city other than Lagos. Any country other than Nigeria. Any ML.
+Couple accounts. Venues. Transport. Registry or gifting. Payments, escrow or bookings. Vendor accounts or login. Photo uploads. Any city other than Lagos. Any country other than Nigeria. Any ML. The couple-facing directory and reviews were brought forward by D-009; everything else on this list still waits.

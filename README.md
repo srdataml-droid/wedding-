@@ -17,9 +17,9 @@ For the first 90 days (26 Sep to 25 Dec 2026):
 
 ## Status
 
-**Slice 1 is live: https://together-seven-nu.vercel.app**
+**The full app is live: https://together-seven-nu.vercel.app** (D-009, 27 Sep 2026)
 
-A vendor sign-up page, deployed 26 Sep 2026. Sign-ups land in the `vendors` table of the Supabase project, read in the dashboard's table editor. What is left of Slice 1 is market work: 10 vendors in the table, at least 3 signed up in person, 3 vendor conversations written up. Then Slice 2, the verified list, and the **25 Oct 2026** gate. Details and kill criteria are in `PLAN.md`.
+Couples browse verified vendors, message them on WhatsApp and leave reviews. Vendors sign up at `/join`. Samuel verifies vendors and approves reviews at `/admin`. What is left before the **25 Oct 2026** gate is market work: vendors signed up and verified, conversations written up, couples reached. Details and kill criteria are in `PLAN.md`. Pages and setup are in `web/README.md`.
 
 ## What is in this repo
 

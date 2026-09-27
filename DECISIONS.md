@@ -69,6 +69,19 @@ Format: ID, date, decision, who decided, objection, why overruled, revisit when.
 - **Objection (Backend Engineer):** Anyone holding the publishable key can add junk rows through the REST API directly, bypassing the form's validation.
 - **Why overruled:** The form is public anyway, so the same junk could be typed into it. At ten vendors, junk is deleted by hand in the dashboard. If spam appears, the fix is a check in the policy or a captcha on the form, not a secret.
 - **Revisit when:** spam rows appear, or Slice 2 needs the page to read vendor rows, which will need its own read policy limited to verified rows.
+- **Update 27 Sep 2026 (D-009):** the public site still uses only the publishable key. The new admin page needs the secret key on the server. Samuel pastes it into Vercel himself; it never passes through a chat.
+
+## D-009. Build the full app now: the whole trust loop, without accounts or payments
+
+- **Date:** 27 Sep 2026
+- **Decided by:** Samuel ("make the full app now"), overruling the slice order in `PLAN.md`.
+- **Decision:** Build the complete loop in one go. Couples browse verified vendors, filter by category and area, open a profile, message the vendor on WhatsApp, and leave a review. Each WhatsApp tap is logged as an enquiry. Vendors sign up at `/join`. Samuel verifies vendors and approves reviews on a password-protected `/admin` page. Slices 2 and 3 of the plan are absorbed into this build.
+- **Interpretation, stated by the Chair:** "full app" was read as the full trust loop, not a marketplace. Still out: vendor or couple accounts, payments or escrow, bookings, photo uploads, other cities, other categories, ML. Each of those either moves money, stores more personal data, or needs a law or regulator check first.
+- **Objection (Simplifier, BENCH):** Zero vendors are signed up and zero conversations are written up. This builds a directory, reviews and an admin console before anyone has said they want them. The 25 Oct gate loses its job of deciding what to build.
+- **Objection (CARE):** More software means more to maintain on 3 hours a week.
+- **Why overruled:** The founder's call. The parts built are the ones the plan already predicted (the verified list), plus two that produce the evidence the gate needs: enquiries per vendor show whether Together sends vendors business, and reviews show whether couples care. None of it costs money or takes on new legal risk.
+- **Promises the site now makes, which Samuel must keep:** every vendor is met or video-called before going live; every reviewer is contacted before their review goes up; couples pay no fee.
+- **Revisit when:** 25 Oct 2026 gate. If no vendor has received an enquiry by then, the directory is not the wedge.
 
 ---
 
