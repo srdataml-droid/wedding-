@@ -15,12 +15,24 @@ function adminPassword() {
   return process.env.ADMIN_PASSWORD ?? "";
 }
 
+// What stops the admin page from switching on, named so Samuel can fix it without guessing.
+// Only names and lengths, never values. When this list is empty the page is on.
+export function adminSetupProblems() {
+  const problems: string[] = [];
+  const secret = process.env.SUPABASE_SECRET_KEY ?? "";
+  const password = adminPassword();
+  if (!process.env.SUPABASE_URL) problems.push("SUPABASE_URL is missing.");
+  if (!secret) problems.push("SUPABASE_SECRET_KEY is missing.");
+  else if (secret.startsWith("sb_publishable_"))
+    problems.push("SUPABASE_SECRET_KEY holds the publishable key. It needs the secret key (sb_secret_...).");
+  if (!password) problems.push("ADMIN_PASSWORD is missing.");
+  else if (password.length < MIN_PASSWORD_LENGTH)
+    problems.push(`ADMIN_PASSWORD is shorter than ${MIN_PASSWORD_LENGTH} characters.`);
+  return problems;
+}
+
 export function adminConfigured() {
-  return (
-    adminPassword().length >= MIN_PASSWORD_LENGTH &&
-    Boolean(process.env.SUPABASE_URL) &&
-    Boolean(process.env.SUPABASE_SECRET_KEY)
-  );
+  return adminSetupProblems().length === 0;
 }
 
 function sameText(a: string, b: string) {
