@@ -39,7 +39,7 @@ export default async function ReviewPage({ params, searchParams }: PageProps<"/v
         Back to {vendor.business_name}
       </Link>
       <p className={`mt-4 ${eyebrow}`}>Review</p>
-      <h1 className="mt-2 text-2xl font-semibold leading-tight text-ink">
+      <h1 className="mt-2 font-display text-3xl font-semibold leading-tight text-ink">
         How was {vendor.business_name}?
       </h1>
       <p className="mt-2 text-sm leading-relaxed text-muted">

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* One look everywhere. The page does not follow the phone's dark mode, so a vendor
-   with dark mode on sees the same warm page as everyone else. */
+   or guest with dark mode on sees the same warm page as everyone else. */
 @theme inline {
   --color-paper: #f8f4ee;
   --color-card: #ffffff;
@@ -11,8 +11,11 @@
   --color-wine: #7b2340;
   --color-wine-deep: #5e1a31;
   --color-blush: #fbeef1;
+  --color-gold: #9a7440;
+  --color-gold-soft: #f1e7d6;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-cormorant);
 }
 
 html {

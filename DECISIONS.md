@@ -83,6 +83,20 @@ Format: ID, date, decision, who decided, objection, why overruled, revisit when.
 - **Promises the site now makes, which Samuel must keep:** every vendor is met or video-called before going live; every reviewer is contacted before their review goes up; couples pay no fee.
 - **Revisit when:** 25 Oct 2026 gate. If no vendor has received an enquiry by then, the directory is not the wedge.
 
+## D-010. A Zola or Knot type of site: add the couple's side, a wedding website with RSVP
+
+- **Date:** 28 Sep 2026
+- **Decided by:** Samuel ("lets have a zola or knot type of site").
+- **Interpretation, stated by the Chair:** Zola and The Knot pair a vendor marketplace with the couple's own planning tools. Together already had the marketplace, so this adds the couple's side, adapted to Lagos: a free wedding website with the story, each ceremony, times and directions, aso-ebi details and a hashtag; online RSVP; a Nigerian wedding checklist; and credits for the verified vendors the couple booked, which shows every guest a Together vendor. The whole site also got a more polished look.
+- **How couples edit without accounts:** each website has a private edit link. Only a SHA-256 hash of its token is stored. Every change goes through a database function that checks the token. If a couple loses the link, it cannot be recovered; they make a new site.
+- **Still out:** couple accounts and passwords, gift registry, bank details for cash gifts, payments, guest-list import, budget tracker, invitations, photo uploads, other cities. Registry and bank details move money and invite fraud, such as a fake page with someone else's account number, so they wait for Samuel's own decision under the escalation rule.
+- **New personal data:** guests' names, replies, optional phone numbers and messages. They are visible only through the couple's private link, never through the public key. They are deleted when the couple deletes the site. Wedding pages are kept out of search engines.
+- **Objection (Simplifier):** Two sides to build and recruit for, with zero vendors and zero couples so far. Every new page is more to test and maintain.
+- **Objection (BENCH):** Anyone can now publish a page on Together. That is a scam and abuse risk under the Together name. Mitigations: Samuel can take any wedding site down from `/admin`, no money or bank details can be shown, and every page says the RSVP goes only to the couple.
+- **Objection (CARE):** Moderating wedding pages adds to a 3-hour week.
+- **Why overruled:** The founder's call. The wedding website is also the growth loop: each couple shares their link with every guest, and each page credits verified vendors and invites guests to make their own. It costs nothing to run and needs no new secret.
+- **Revisit when:** 25 Oct 2026 gate. Measure how many couples made a site, how many RSVPs came in, and how many vendors were credited.
+
 ---
 
 ## Backlog (parked by D-001, not in the plan)
@@ -93,3 +107,6 @@ Format: ID, date, decision, who decided, objection, why overruled, revisit when.
 | 26 Sep 2026 | Ideator | Transport | D-001 |
 | 26 Sep 2026 | Ideator | Venues | D-001 |
 | 26 Sep 2026 | Ideator | Pan-African expansion | D-001 |
+| 28 Sep 2026 | Chair | Gift registry, or bank details for cash gifts on wedding sites | D-010: money and fraud risk, Samuel decides |
+| 28 Sep 2026 | Chair | Couple accounts, so a lost edit link can be recovered | D-010 |
+| 28 Sep 2026 | Chair | Budget tracker and guest-list import | D-010 |

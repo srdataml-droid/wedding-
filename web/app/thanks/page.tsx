@@ -13,7 +13,7 @@ export default function ThanksPage() {
   return (
     <main className="mx-auto w-full max-w-md px-4 pb-16 pt-10">
       <p className={eyebrow}>Together</p>
-      <h1 className="mt-3 text-3xl font-semibold leading-tight text-ink">You are on the list.</h1>
+      <h1 className="mt-3 font-display text-4xl font-semibold leading-tight text-ink">You are on the list.</h1>
       <p className="mt-3 text-base leading-relaxed text-muted">
         Thank you. We will message you on WhatsApp to arrange a quick check of
         your past work. Your profile goes live once that is done.

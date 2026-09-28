@@ -15,7 +15,7 @@ export default async function AdminLoginPage({ searchParams }: PageProps<"/admin
   return (
     <main className="mx-auto w-full max-w-sm px-4 pb-16 pt-12">
       <p className={eyebrow}>Admin</p>
-      <h1 className="mt-2 text-2xl font-semibold text-ink">Sign in</h1>
+      <h1 className="mt-2 font-display text-3xl font-semibold text-ink">Sign in</h1>
 
       {problems.length === 0 ? (
         <form action={logIn} className="mt-6 flex flex-col gap-4 rounded-2xl border border-line bg-card p-5 shadow-sm">

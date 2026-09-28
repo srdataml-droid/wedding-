@@ -48,7 +48,7 @@ Other commitments on the same hours: the Novaxis AI receptionist build, the HVAC
 
 ## Where things stand
 
-**The full app is live at https://together-seven-nu.vercel.app** (27 Sep 2026, D-009): couples browse verified vendors, message them on WhatsApp and leave reviews; vendors sign up at `/join`; Samuel verifies vendors and approves reviews at `/admin`. What remains is market work: 10 vendors signed up, 5 verified, 3 vendor and 2 couple conversations written up, and at least one enquiry logged. Then the **25 Oct 2026** gate. Kill criteria are in `PLAN.md`. If they trigger, say so plainly. Do not rescue the plan.
+**Live at https://together-seven-nu.vercel.app** (D-009, D-010): a Zola or Knot type of site for Lagos. Couples make a free wedding website with RSVP and a checklist at `/start`, browse verified vendors, message them on WhatsApp and leave reviews; vendors sign up at `/join`; Samuel verifies vendors, approves reviews and takes down abusive wedding sites at `/admin`. Gift registries and bank details are deliberately out until Samuel decides. What remains is market work: 10 vendors signed up, 5 verified, 3 vendor and 2 couple conversations written up, at least one enquiry logged, and the first couples making a website. Then the **25 Oct 2026** gate. Kill criteria are in `PLAN.md`. If they trigger, say so plainly. Do not rescue the plan.
 
 ## When Samuel runs this through his Council of Councils
 

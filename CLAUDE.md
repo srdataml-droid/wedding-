@@ -7,7 +7,7 @@ One founder: Samuel. He does engineering and market work himself. There is no se
 ## Operating rules that bind every session
 
 1. **Stay inside the current slice.** `PLAN.md` names what is being built right now. Build that and nothing next to it. A new feature idea goes in the backlog in `DECISIONS.md`, not in the code.
-2. **Smallest thing that works.** If it can be deleted and the trust loop still works, delete it. No vendor or couple accounts, no payments, no ML, no second category until `PLAN.md` says so. The only login is Samuel's admin password (D-009).
+2. **Smallest thing that works.** If it can be deleted and the trust loop still works, delete it. No vendor or couple accounts, no payments, no registry or bank details, no ML, no second category until `PLAN.md` says so. The only login is Samuel's admin password (D-009). Couples edit their wedding website through a private link, not an account (D-010).
 3. **Small diffs, each one verified.** Run lint and typecheck before every commit. Never produce a large generation the founder cannot read and defend to someone asking "why?".
 4. **Every claim needs a source.** Anything written into `research/` carries a name, a date and where it came from. Unverifiable claims are struck, not softened.
 5. **Record dissent.** Any change to `PLAN.md` gets a `DECISIONS.md` entry first, with the objection if there was one.

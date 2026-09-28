@@ -42,7 +42,7 @@ export default async function JoinPage({ searchParams }: PageProps<"/join">) {
     <main className="mx-auto w-full max-w-md px-4 pb-16 pt-10">
       <header>
         <p className={eyebrow}>For vendors</p>
-        <h1 className="mt-3 text-3xl font-semibold leading-tight text-ink">
+        <h1 className="mt-3 font-display text-4xl font-semibold leading-tight text-ink">
           Get verified. Let couples find you.
         </h1>
         <p className="mt-3 text-base leading-relaxed text-muted">

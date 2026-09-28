@@ -39,7 +39,7 @@ export default async function VendorPage({ params, searchParams }: PageProps<"/v
 
       <header className="mt-4">
         <p className="text-xs font-semibold uppercase tracking-wider text-wine">{vendor.category}</p>
-        <h1 className="mt-1 text-3xl font-semibold leading-tight text-ink">{vendor.business_name}</h1>
+        <h1 className="mt-1 font-display text-4xl font-semibold leading-tight text-ink">{vendor.business_name}</h1>
         <p className="mt-1 text-base text-muted">
           {vendor.area}, Lagos
           {vendor.years_active ? ` · ${vendor.years_active} years doing weddings` : ""}

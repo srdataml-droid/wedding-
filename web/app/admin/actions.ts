@@ -112,3 +112,18 @@ export async function deleteReview(formData: FormData) {
   const id = idFrom(formData);
   await run(() => supabaseAdmin().from("reviews").delete().eq("id", id), "review-deleted");
 }
+
+// Takes a wedding website down, or puts it back. For scams, abuse or a couple's request.
+export async function setWeddingHidden(formData: FormData) {
+  await requireAdmin();
+  const id = idFrom(formData);
+  const hide = text(formData, "hide", 5) === "true";
+  await run(
+    () =>
+      supabaseAdmin()
+        .from("weddings")
+        .update({ hidden_at: hide ? new Date().toISOString() : null })
+        .eq("id", id),
+    hide ? "wedding-hidden" : "wedding-shown",
+  );
+}

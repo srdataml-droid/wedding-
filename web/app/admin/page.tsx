@@ -11,6 +11,7 @@ import {
   deleteVendor,
   logOut,
   setVendorHidden,
+  setWeddingHidden,
   unverifyVendor,
   verifyVendor,
 } from "./actions";
@@ -45,6 +46,16 @@ type PendingReview = {
   vendors: { business_name: string; slug: string | null } | null;
 };
 
+type WeddingRow = {
+  id: string;
+  created_at: string;
+  slug: string;
+  partner_one: string;
+  partner_two: string;
+  wedding_date: string | null;
+  hidden_at: string | null;
+};
+
 const MESSAGES: Record<string, string> = {
   verified: "Vendor verified. Their profile is live.",
   unverified: "Vendor taken off the public list.",
@@ -53,6 +64,8 @@ const MESSAGES: Record<string, string> = {
   deleted: "Vendor deleted.",
   approved: "Review approved. It is now public.",
   "review-deleted": "Review deleted.",
+  "wedding-hidden": "Wedding website taken down.",
+  "wedding-shown": "Wedding website back up.",
 };
 
 const ERRORS: Record<string, string> = {
@@ -64,7 +77,7 @@ const ERRORS: Record<string, string> = {
 async function loadData() {
   const db = supabaseAdmin();
   const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-  const [vendors, reviews, enquiries] = await Promise.all([
+  const [vendors, reviews, enquiries, weddings, rsvps] = await Promise.all([
     db.from("vendors").select("*").order("created_at", { ascending: false }).limit(1000),
     db
       .from("reviews")
@@ -73,18 +86,30 @@ async function loadData() {
       .order("created_at", { ascending: true })
       .limit(200),
     db.from("enquiries").select("vendor_id").gte("created_at", since).limit(10000),
+    db
+      .from("weddings")
+      .select("id, created_at, slug, partner_one, partner_two, wedding_date, hidden_at")
+      .order("created_at", { ascending: false })
+      .limit(200),
+    db.from("rsvps").select("wedding_id").limit(20000),
   ]);
-  const error = vendors.error ?? reviews.error ?? enquiries.error;
+  const error = vendors.error ?? reviews.error ?? enquiries.error ?? weddings.error ?? rsvps.error;
   if (error) throw error;
   const enquiryCounts = new Map<string, number>();
   for (const row of (enquiries.data ?? []) as { vendor_id: string }[]) {
     enquiryCounts.set(row.vendor_id, (enquiryCounts.get(row.vendor_id) ?? 0) + 1);
+  }
+  const rsvpCounts = new Map<string, number>();
+  for (const row of (rsvps.data ?? []) as { wedding_id: string }[]) {
+    rsvpCounts.set(row.wedding_id, (rsvpCounts.get(row.wedding_id) ?? 0) + 1);
   }
   return {
     vendors: (vendors.data ?? []) as Vendor[],
     reviews: (reviews.data ?? []) as unknown as PendingReview[],
     enquiryCounts,
     enquiryTotal: enquiries.data?.length ?? 0,
+    weddings: (weddings.data ?? []) as WeddingRow[],
+    rsvpCounts,
   };
 }
 
@@ -327,6 +352,42 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
           </ul>
         </section>
       ) : null}
+
+      <section className="mt-10">
+        <h2 className="text-lg font-semibold text-ink">Wedding websites ({data.weddings.length})</h2>
+        <p className="mt-1 text-sm text-muted">
+          Take a site down if it looks like a scam or abuse, or if the couple asks.
+        </p>
+        {data.weddings.length === 0 ? <p className="mt-2 text-sm text-muted">No wedding websites yet.</p> : null}
+        <ul className="mt-3 grid gap-2">
+          {data.weddings.map((w) => (
+            <li key={w.id} className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-line bg-card px-4 py-3">
+              <div className="min-w-0">
+                {w.hidden_at ? (
+                  <span className="font-medium text-muted line-through">
+                    {w.partner_one} &amp; {w.partner_two}
+                  </span>
+                ) : (
+                  <Link href={`/w/${w.slug}`} className="font-medium text-ink underline underline-offset-4">
+                    {w.partner_one} &amp; {w.partner_two}
+                  </Link>
+                )}
+                <p className="text-xs text-muted">
+                  Made {formatDate(w.created_at)}
+                  {w.wedding_date ? ` · wedding ${w.wedding_date}` : ""} · {data.rsvpCounts.get(w.id) ?? 0} RSVPs
+                </p>
+              </div>
+              <form action={setWeddingHidden}>
+                <Hidden id={w.id} />
+                <input type="hidden" name="hide" value={w.hidden_at ? "false" : "true"} />
+                <button type="submit" className={secondaryButton}>
+                  {w.hidden_at ? "Put back up" : "Take down"}
+                </button>
+              </form>
+            </li>
+          ))}
+        </ul>
+      </section>
     </main>
   );
 }

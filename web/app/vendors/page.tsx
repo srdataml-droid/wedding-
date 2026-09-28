@@ -29,7 +29,7 @@ export default async function VendorsPage({ searchParams }: PageProps<"/vendors"
   return (
     <main className="mx-auto w-full max-w-3xl px-4 pb-16 pt-10">
       <p className={eyebrow}>Verified vendors</p>
-      <h1 className="mt-3 text-3xl font-semibold leading-tight text-ink">Find a vendor</h1>
+      <h1 className="mt-3 font-display text-4xl font-semibold leading-tight text-ink">Find a vendor</h1>
       <p className="mt-2 text-base text-muted">
         Every vendor here has been checked by a real person before going live.
       </p>
