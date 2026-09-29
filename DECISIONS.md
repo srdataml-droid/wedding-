@@ -109,6 +109,30 @@ Format: ID, date, decision, who decided, objection, why overruled, revisit when.
 - **Why overruled:** The founder's call. It is small, adds no new secret, moves no money and keeps the same privacy model. The admin gap is Samuel's to close in Vercel, and it is first on his action list.
 - **Revisit when:** 25 Oct 2026 gate, with the D-010 measures.
 
+## D-012. A market, invitation cards and anniversary reminders
+
+- **Date:** 29 Sep 2026
+- **Decided by:** Samuel ("add a market place and a place that ppl can show what they sale be it product or services and a way ppl can create rspv ad share invites then looking forward to reminders from agent or us about anniverssary gift purchases and other likeables").
+- **Interpretation, stated by the Chair:**
+  - **Market.** Verified vendors list what they sell, products or services, with a price. Couples browse at `/market`, filter by products, services or gifts, and ask the seller on WhatsApp. Each tap is logged as an enquiry, like the profile button. There is no checkout. Buyers pay sellers directly, off the site.
+  - **Who can sell.** Only verified vendors. A market trader signs up at `/join` like any other vendor. After Samuel verifies them, he sends them a private shop link from `/admin`. Through it they add, change and remove their items. Like the couple's edit link, only a hash of it is stored. It is not an account: no password, no email, nothing to log in to.
+  - **Invitations.** RSVP already exists on every wedding website. New: an invitation card drawn from the couple's names, date, ceremonies and design. It shows as the preview whenever the website link is shared on WhatsApp. A tall version can be posted in family groups or on WhatsApp status. The planner's Guests tab gets an invite section.
+  - **Anniversary reminders, "from us".** In the planner, a couple can ask for one WhatsApp message a year, about two weeks before their anniversary, with gift ideas from the market. Samuel sends it by hand: `/admin` lists who is due, with the message ready to send. Nothing is sent without a ticked consent box. The date of consent is kept. The couple can stop it from the planner or by replying STOP.
+  - **"Other likeables"** was read as the gift ideas in that message: items vendors mark as good gifts.
+  - A new vendor category, "Gifts / souvenirs", so gift and souvenir sellers can sign up. Souvenirs are already a wedding purchase, so this stays inside D-001.
+- **Not built, and escalated to Samuel:**
+  - **Reminders "from agent".** Automatic sending needs a paid service (a WhatsApp Business API account or an email service), a key, and a business name registered with Meta, or a domain for email. Money moves and a name attaches publicly, so Samuel decides. An AI agent that writes the messages or picks gifts is ML, which the plan rules out.
+  - **Fees.** Charging sellers or taking a cut of sales is a money decision. Nothing on the site charges anyone.
+  - **Checkout, photos, personal invites.** No payments or escrow. No photo uploads: buyers see work on the seller's Instagram or ask on WhatsApp. No per-guest invites, which need a guest list, still parked.
+- **New personal data:** the couple's WhatsApp number for reminders, with the date they agreed. Only the couple's private link and `/admin` can see it, and it is deleted with the website. Market items are public, like vendor profiles.
+- **Objection (Simplifier):** Three features at once, with zero verified vendors, zero couples and `/admin` still switched off. The market stays empty until vendors are verified, and the first reminder cannot go out until a year after the first wedding on Together. The smallest version of this request is the invitation card alone.
+- **Objection (BENCH):** A market is where Lagos wedding scams live, such as aso-ebi paid for and never delivered. Mitigations: only verified vendors can list, Samuel can take any item down, and the market says Together never takes payment and tells buyers how to stay safe. `/admin` is still off, so today no vendor can be verified and no shop link can be sent.
+- **Objection (CARE):** More work by hand, every week and every year: sending shop links (about 2 minutes a vendor), checking new items (about 5 minutes a week once vendors list), and sending reminders (about 2 minutes each, from a list that only grows).
+- **Objection (Counsel):** Messages that market to people should rest on clear, recorded consent that can be withdrawn (Nigeria Data Protection Act 2023; not checked by a lawyer). Built with a ticked box, a stated purpose and frequency, a recorded date and two ways to stop. The site still has no privacy page saying who holds the data. Naming a person or company there attaches a name publicly, so that is Samuel's decision.
+- **Why overruled:** The founder's call. Each part is the smallest version that needs no money, no new secret and no new kind of login. The market reuses the verified list and the private-link pattern. Invitations reuse the website. Reminders are sent by a person, which also shows whether couples want them before anyone pays for automation.
+- **Promises the site now makes, which Samuel must keep:** only verified vendors appear in the market (the database enforces it), and couples who ask for reminders get at most one message a year, and none after they say stop.
+- **Revisit when:** 25 Oct 2026 gate. Measure items listed, enquiries from the market, and couples who asked for reminders.
+
 ---
 
 ## Backlog (parked by D-001, not in the plan)
@@ -122,3 +146,9 @@ Format: ID, date, decision, who decided, objection, why overruled, revisit when.
 | 28 Sep 2026 | Chair | Gift registry, or bank details for cash gifts on wedding sites | D-010: money and fraud risk, Samuel decides |
 | 28 Sep 2026 | Chair | Couple accounts, so a lost edit link can be recovered | D-010 |
 | 28 Sep 2026 | Chair | Guest-list import (the budget tracker was built by D-011) | D-010 |
+| 29 Sep 2026 | Samuel | Automatic anniversary reminders on WhatsApp or email ("from agent") | D-012: a paid service, a key and a public business name. Samuel decides |
+| 29 Sep 2026 | Chair | Fees or commission from sellers in the market | D-012: money, Samuel decides |
+| 29 Sep 2026 | Chair | Photos on market items | D-012: storage and moderation. Photo uploads are out of scope |
+| 29 Sep 2026 | Chair | Personal invites for each guest, showing who has not replied | D-012: needs a guest list |
+| 29 Sep 2026 | Chair | Reminders for birthdays and other dates, or for couples without a wedding website | D-012: a new audience, D-001 |
+| 29 Sep 2026 | Chair | Vendors edit their own profile through the shop link | D-012 |
