@@ -126,7 +126,7 @@ export default async function WeddingPlannerPage({ params, searchParams }: PageP
       <div className="mt-5">
         {tab === "overview" ? <OverviewPanel {...panelProps} rsvps={rsvps} /> : null}
         {tab === "website" ? <WebsitePanel {...panelProps} /> : null}
-        {tab === "guests" ? <GuestsPanel rsvps={rsvps} /> : null}
+        {tab === "guests" ? <GuestsPanel {...panelProps} rsvps={rsvps} /> : null}
         {tab === "checklist" ? <ChecklistPanel {...panelProps} /> : null}
         {tab === "budget" ? <BudgetPanel {...panelProps} /> : null}
         {tab === "vendors" ? <VendorsPanel {...panelProps} vendors={vendors} /> : null}

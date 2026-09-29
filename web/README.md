@@ -9,7 +9,8 @@ A Zola or Knot type of site for Lagos (D-009, D-010). Couples make a free weddin
 | `/` | Couples | Home: wedding website, checklist, RSVP and verified vendors in one place |
 | `/start` | Couples | Create a free wedding website. No account; the couple gets a private edit link |
 | `/w/[slug]` | Guests | The wedding website: story, ceremonies with directions, aso-ebi, RSVP, credited vendors. Not indexed by search engines |
-| `/w/[slug]/edit/[token]` | Couples | Private planner (D-011), tabs chosen with `?tab=`: overview (countdown, progress, next tasks, sharing), website (design, details, ceremonies, delete), guests (RSVPs), checklist, budget, vendors |
+| `/w/[slug]/card` | Guests | The invitation card as an image (D-012). The wide version is the preview WhatsApp shows for the website link; `?format=tall` is for family groups and WhatsApp status |
+| `/w/[slug]/edit/[token]` | Couples | Private planner (D-011), tabs chosen with `?tab=`: overview (countdown, progress, next tasks, sharing), website (design, details, ceremonies, delete), guests (invitation card, RSVPs), checklist, budget, vendors |
 | `/vendors` | Couples | Directory of verified vendors, filter by category, area and name |
 | `/vendors/[slug]` | Couples | Profile: what was checked, reviews, WhatsApp button (logs an enquiry) |
 | `/vendors/[slug]/review` | Couples | Leave a review. Hidden until approved |
@@ -50,6 +51,7 @@ The Supabase security advisor warns that `vendor_count()` and the four wedding f
 - Guests' replies and phone numbers are visible only on the couple's private edit page, and are deleted with the site.
 - Anyone can make a site, so check `/admin` now and then and take down anything that looks like a scam or abuse.
 - There is no gift registry and no place for bank details, on purpose (D-010).
+- The invitation card is drawn from the public page only, in the font in `assets/fonts` (Cormorant Garamond, SIL Open Font License, see `assets/fonts/OFL.txt`). Tone marks that sit on a letter as a separate mark, such as on a Yoruba ọ̀, are left off the card because the image renderer cannot place them; the website itself shows them. WhatsApp keeps a link's preview for a while, so a change may take time to show in chats.
 
 ## Admin sign-in
 

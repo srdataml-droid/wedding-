@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { CHECKLIST, CHECKLIST_TOTAL } from "@/lib/checklist";
 import { BUDGET_LINES, budgetTotals, readBudget } from "@/lib/budget";
@@ -62,6 +63,12 @@ function rsvpCounts(rsvps: Rsvp[]) {
 
 function naira(n: number) {
   return new Intl.NumberFormat("en-NG").format(n);
+}
+
+// The message that goes with the link. WhatsApp adds the invitation card as its preview.
+function inviteMessage(wedding: EditableWedding, slug: string) {
+  const when = wedding.wedding_date ? ` on ${formatLongDate(wedding.wedding_date)}` : "";
+  return `You are invited to the wedding of ${wedding.partner_one} & ${wedding.partner_two}${when}. See the details and RSVP here: ${SITE_URL}/w/${slug}`;
 }
 
 // ---------- Overview ----------
@@ -147,7 +154,7 @@ export function OverviewPanel({ wedding, slug, token, rsvps }: PanelProps & { rs
         <p className="break-all text-sm text-ink">{publicUrl}</p>
         <div className="mt-3 flex flex-wrap gap-2">
           <a
-            href={waShare(`${names} are getting married! All the details and RSVP here: ${publicUrl}`)}
+            href={waShare(inviteMessage(wedding, slug))}
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-lg bg-wine px-4 py-2.5 text-sm font-semibold text-white hover:bg-wine-deep"
@@ -158,6 +165,9 @@ export function OverviewPanel({ wedding, slug, token, rsvps }: PanelProps & { rs
             View your website
           </Link>
         </div>
+        <Link href={`${base}?tab=guests#invite`} className="mt-3 inline-block text-sm font-semibold text-wine underline underline-offset-4">
+          See your invitation card
+        </Link>
       </Section>
     </div>
   );
@@ -306,56 +316,92 @@ export function WebsitePanel({ wedding, slug, token }: PanelProps) {
 
 // ---------- Guests ----------
 
-export function GuestsPanel({ rsvps }: { rsvps: Rsvp[] }) {
+export function GuestsPanel({ wedding, slug, rsvps }: PanelProps & { rsvps: Rsvp[] }) {
   const counts = rsvpCounts(rsvps);
+  const names = `${wedding.partner_one} & ${wedding.partner_two}`;
   return (
-    <Section id="guests" title="Guests">
-      <dl className="grid grid-cols-3 gap-2 text-center">
-        {[
-          ["Coming", `${counts.comingReplies} ${counts.comingReplies === 1 ? "reply" : "replies"}`],
-          ["People", String(counts.people)],
-          ["Not coming", String(counts.notComing)],
-        ].map(([label, value]) => (
-          <div key={label} className="rounded-xl border border-line bg-paper px-2 py-2">
-            <dt className="text-xs text-muted">{label}</dt>
-            <dd className="text-lg font-semibold text-ink">{value}</dd>
-          </div>
-        ))}
-      </dl>
-      {rsvps.length === 0 ? (
-        <p className="mt-3 text-sm text-muted">No replies yet. Share your website to start collecting them.</p>
-      ) : (
-        <ul className="mt-3 divide-y divide-line">
-          {rsvps.map((r, i) => (
-            <li key={`${r.created_at}-${i}`} className="py-2.5 text-sm">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <span className="font-medium text-ink">{r.guest_name}</span>
-                <span className={r.attending ? "text-wine" : "text-muted"}>
-                  {r.attending ? `Coming · ${r.party_size} ${r.party_size === 1 ? "person" : "people"}` : "Not coming"}
-                </span>
-              </div>
-              {r.message ? <p className="mt-1 text-ink">{r.message}</p> : null}
-              <p className="mt-1 text-xs text-muted">
-                {formatDate(r.created_at)}
-                {r.phone ? (
-                  <>
-                    {" · "}
-                    <a
-                      href={waLink(r.phone, `Hi ${r.guest_name}, thank you for your RSVP!`)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-wine underline underline-offset-4"
-                    >
-                      {r.phone}
-                    </a>
-                  </>
-                ) : null}
-              </p>
-            </li>
+    <div className="grid gap-5">
+      <Section id="invite" title="Invite your guests">
+        {/* Made from the public website only. The planner sends no referrer, so the private link stays private. */}
+        <Image
+          src={`/w/${slug}/card`}
+          alt={`Invitation card for ${names}`}
+          width={1200}
+          height={630}
+          unoptimized
+          loading="eager"
+          className="w-full rounded-xl border border-line bg-paper"
+        />
+        <p className="mt-3 text-sm text-muted">
+          Your invitation card is made from your website. It shows when you share your link on WhatsApp, and it changes
+          when you change your details or design.
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <a
+            href={waShare(inviteMessage(wedding, slug))}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-lg bg-wine px-4 py-2.5 text-sm font-semibold text-white hover:bg-wine-deep"
+          >
+            Send the invitation on WhatsApp
+          </a>
+          <a href={`/w/${slug}/card?format=tall`} target="_blank" rel="noopener noreferrer" className={secondaryButton}>
+            Open the tall card
+          </a>
+        </div>
+        <p className="mt-2 text-xs leading-relaxed text-muted">
+          For family groups and your WhatsApp status: open the tall card, then press and hold it to save or share it.
+        </p>
+      </Section>
+
+      <Section id="guests" title="Replies">
+        <dl className="grid grid-cols-3 gap-2 text-center">
+          {[
+            ["Coming", `${counts.comingReplies} ${counts.comingReplies === 1 ? "reply" : "replies"}`],
+            ["People", String(counts.people)],
+            ["Not coming", String(counts.notComing)],
+          ].map(([label, value]) => (
+            <div key={label} className="rounded-xl border border-line bg-paper px-2 py-2">
+              <dt className="text-xs text-muted">{label}</dt>
+              <dd className="text-lg font-semibold text-ink">{value}</dd>
+            </div>
           ))}
-        </ul>
-      )}
-    </Section>
+        </dl>
+        {rsvps.length === 0 ? (
+          <p className="mt-3 text-sm text-muted">No replies yet. Share your website to start collecting them.</p>
+        ) : (
+          <ul className="mt-3 divide-y divide-line">
+            {rsvps.map((r, i) => (
+              <li key={`${r.created_at}-${i}`} className="py-2.5 text-sm">
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <span className="font-medium text-ink">{r.guest_name}</span>
+                  <span className={r.attending ? "text-wine" : "text-muted"}>
+                    {r.attending ? `Coming · ${r.party_size} ${r.party_size === 1 ? "person" : "people"}` : "Not coming"}
+                  </span>
+                </div>
+                {r.message ? <p className="mt-1 text-ink">{r.message}</p> : null}
+                <p className="mt-1 text-xs text-muted">
+                  {formatDate(r.created_at)}
+                  {r.phone ? (
+                    <>
+                      {" · "}
+                      <a
+                        href={waLink(r.phone, `Hi ${r.guest_name}, thank you for your RSVP!`)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-wine underline underline-offset-4"
+                      >
+                        {r.phone}
+                      </a>
+                    </>
+                  ) : null}
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Section>
+    </div>
   );
 }
 

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { countdownLabel, formatLongDate, formatTime, isSlug, mapsLink } from "@/lib/format";
+import { SITE_URL, countdownLabel, formatLongDate, formatTime, isSlug, mapsLink } from "@/lib/format";
 import { getPublicWedding, getVendorsByIds, sortEvents } from "@/lib/weddings";
 import { themeStyle } from "@/lib/themes";
 import { Ornament, WovenBand } from "../../_components/ornament";
@@ -11,11 +11,27 @@ import { sendRsvp } from "./actions";
 export async function generateMetadata({ params }: PageProps<"/w/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const wedding = isSlug(slug) ? await getPublicWedding(slug) : null;
+  // Wedding pages stay out of search engines. Guests arrive by link.
+  const robots = { index: false, follow: false };
+  if (!wedding) return { title: "Wedding not found", robots };
+
+  const names = `${wedding.partner_one} & ${wedding.partner_two}`;
+  const when = wedding.wedding_date ? `${formatLongDate(wedding.wedding_date)}. ` : "";
   return {
-    title: wedding ? `${wedding.partner_one} & ${wedding.partner_two}` : "Wedding not found",
-    description: wedding ? "Our wedding: the day, the details, aso-ebi and RSVP." : undefined,
-    // Wedding pages stay out of search engines. Guests arrive by link.
-    robots: { index: false, follow: false },
+    title: names,
+    description: `${when}The day, the details, aso-ebi and RSVP.`,
+    robots,
+    // What WhatsApp shows when the link is shared: the invitation card (D-012).
+    openGraph: {
+      type: "website",
+      siteName: "Together",
+      url: `${SITE_URL}/w/${wedding.slug}`,
+      title: `You are invited: ${names}`,
+      description: `${when}See the details and RSVP.`,
+      images: [
+        { url: `${SITE_URL}/w/${wedding.slug}/card`, width: 1200, height: 630, alt: `Wedding invitation for ${names}` },
+      ],
+    },
   };
 }
 
