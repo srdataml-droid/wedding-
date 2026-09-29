@@ -41,12 +41,33 @@ export function formatTime(hhmm: string) {
   return `${hour}:${String(m).padStart(2, "0")} ${suffix}`;
 }
 
+// Today's date in Lagos, as YYYY-MM-DD.
+export function todayInLagos() {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: LAGOS }).format(new Date());
+}
+
+// Whole days between two date-only values.
+export function daysBetween(fromIso: string, toIso: string) {
+  return Math.round((Date.parse(`${toIso}T00:00:00Z`) - Date.parse(`${fromIso}T00:00:00Z`)) / 86_400_000);
+}
+
 // Whole days from today in Lagos to a date-only value. Negative once it has passed.
 export function daysUntil(isoDate: string) {
-  const todayLagos = new Intl.DateTimeFormat("en-CA", { timeZone: LAGOS }).format(new Date());
-  const today = Date.parse(`${todayLagos}T00:00:00Z`);
-  const target = Date.parse(`${isoDate}T00:00:00Z`);
-  return Math.round((target - today) / 86_400_000);
+  return daysBetween(todayInLagos(), isoDate);
+}
+
+// "2026-12-12" → "12 December"
+export function formatDayMonth(isoDate: string) {
+  return new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", timeZone: "UTC" }).format(
+    new Date(`${isoDate}T00:00:00Z`),
+  );
+}
+
+// 1 → "1st", 2 → "2nd", 11 → "11th", 23 → "23rd"
+export function ordinal(n: number) {
+  const tens = n % 100;
+  if (tens >= 11 && tens <= 13) return `${n}th`;
+  return `${n}${{ 1: "st", 2: "nd", 3: "rd" }[n % 10] ?? "th"}`;
 }
 
 export function countdownLabel(isoDate: string) {

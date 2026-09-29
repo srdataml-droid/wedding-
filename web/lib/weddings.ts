@@ -35,6 +35,9 @@ export type EditableWedding = PublicWedding & {
   checklist: Record<string, boolean>;
   budget: unknown;
   hidden_at: string | null;
+  // Anniversary reminder (D-012): digits with country code, and when the couple said yes.
+  reminder_whatsapp: string | null;
+  reminder_consent_at: string | null;
 };
 
 export type Rsvp = {

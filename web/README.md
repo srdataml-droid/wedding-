@@ -10,7 +10,7 @@ A Zola or Knot type of site for Lagos (D-009 to D-012). Couples make a free wedd
 | `/start` | Couples | Create a free wedding website. No account; the couple gets a private edit link |
 | `/w/[slug]` | Guests | The wedding website: story, ceremonies with directions, aso-ebi, RSVP, credited vendors. Not indexed by search engines |
 | `/w/[slug]/card` | Guests | The invitation card as an image (D-012). The wide version is the preview WhatsApp shows for the website link; `?format=tall` is for family groups and WhatsApp status |
-| `/w/[slug]/edit/[token]` | Couples | Private planner (D-011), tabs chosen with `?tab=`: overview (countdown, progress, next tasks, sharing), website (design, details, ceremonies, delete), guests (invitation card, RSVPs), checklist, budget, vendors |
+| `/w/[slug]/edit/[token]` | Couples | Private planner (D-011), tabs chosen with `?tab=`: overview (countdown, progress, next tasks, sharing, anniversary reminder), website (design, details, ceremonies, delete), guests (invitation card, RSVPs), checklist, budget, vendors |
 | `/vendors` | Couples | Directory of verified vendors, filter by category, area and name |
 | `/vendors/[slug]` | Couples | Profile: what was checked, what they sell, reviews, WhatsApp button (logs an enquiry) |
 | `/vendors/[slug]/review` | Couples | Leave a review. Hidden until approved |
@@ -18,7 +18,7 @@ A Zola or Knot type of site for Lagos (D-009 to D-012). Couples make a free wedd
 | `/vendors/[slug]/shop/[token]` | Vendors | Private shop page: add, change and remove what they sell. No account; the link comes from Samuel |
 | `/join` | Vendors | Sign up. Not public until verified |
 | `/thanks` | Vendors | After sign-up, with a share-on-WhatsApp button |
-| `/admin` | Samuel | Verify vendors, send shop links, approve reviews, hide or delete, enquiry counts, take down wedding sites and market items |
+| `/admin` | Samuel | Verify vendors, send shop links, approve reviews, send anniversary reminders, hide or delete, enquiry counts, take down wedding sites and market items |
 
 ## Environment variables
 
@@ -42,7 +42,7 @@ Row Level Security, see `supabase/migrations/`:
 - It can add a review for a verified vendor, but cannot approve it, and can read only approved reviews.
 - It can never read a reviewer's WhatsApp number.
 - It can log an enquiry, but cannot read enquiries. An enquiry can name an item only if it belongs to the same vendor.
-- It can create a wedding website and read visible ones, including the design colour, but never the edit token hash, the couple's checklist or their budget.
+- It can create a wedding website and read visible ones, including the design colour, but never the edit token hash, the couple's checklist, their budget or their anniversary reminder number.
 - It can send an RSVP to an open, visible wedding, but can never read RSVPs.
 - Couples change their site only through four functions (`wedding_for_edit`, `update_wedding`, `wedding_rsvps`, `delete_wedding`). Each checks the SHA-256 hash of the private token first. The token itself is never stored.
 - The secret key, used only by `/admin` after the password check, can do everything.
@@ -55,6 +55,13 @@ The Supabase security advisor warns that `vendor_count()`, the four wedding func
 - If a vendor is unverified or hidden, their items leave the market with them, and come back if they do.
 - There are no photos and no checkout. Couples see work on the vendor's Instagram and pay the vendor directly. Together never takes payment.
 - Take down any item that looks like a scam or has nothing to do with weddings. The vendor sees that it was taken down.
+
+## Anniversary reminders: things to know
+
+- A couple turns them on from the Overview tab of their planner, with a WhatsApp number and a ticked yes. The database records when they said yes, and refuses a number without it.
+- `/admin` lists couples whose anniversary is in the next three weeks. Send the ready-made message with "Send on WhatsApp", then press "Mark sent", so they do not show again until next year. A weekly look is enough.
+- If anyone replies STOP, press "Stop" (or "Stop reminder" in the wedding websites list). That deletes the number and the recorded yes. Couples can also stop from their planner.
+- Nothing is sent automatically. Messages go from whichever WhatsApp account opens the link, so use the number you want couples to see.
 
 ## Wedding websites: things to know
 

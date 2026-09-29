@@ -33,6 +33,7 @@ const SAVED: Record<string, string> = {
   vendors: "Vendors saved.",
   checklist: "Checklist saved.",
   budget: "Budget saved.",
+  reminder: "Anniversary reminder saved.",
 };
 
 const ERRORS: Record<string, string> = {
@@ -40,6 +41,8 @@ const ERRORS: Record<string, string> = {
   date: "That date does not look right.",
   confirm: "Tick the box to confirm the delete.",
   save: "That did not save. Please try again.",
+  whatsapp: "That WhatsApp number does not look right. Use the format 0803 123 4567.",
+  consent: "Tick the box to say yes to the reminder first.",
 };
 
 export default async function WeddingPlannerPage({ params, searchParams }: PageProps<"/w/[slug]/edit/[token]">) {
@@ -80,8 +83,8 @@ export default async function WeddingPlannerPage({ params, searchParams }: PageP
             {isNew ? "Your website is ready. Save this private link first." : "Your private link"}
           </p>
           <p className="mt-1 text-sm text-muted">
-            This link opens your planner. Anyone with it can edit your website and see your RSVPs and budget. There is
-            no password, so keep it safe and share it only with your partner.
+            This link opens your planner. Anyone with it can edit your website and see everything private in it, such
+            as your RSVPs and budget. There is no password, so keep it safe and share it only with your partner.
           </p>
           <input readOnly value={editUrl} className={`${inputClass} font-mono text-xs`} aria-label="Your private link" />
           <a

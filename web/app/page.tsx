@@ -33,6 +33,11 @@ const TOOLS = [
     body: "Aso-ebi, souvenirs, cakes, gifts and services from verified vendors. Ask the seller on WhatsApp.",
     href: "/market",
   },
+  {
+    title: "Anniversary reminders",
+    body: "If you ask, one WhatsApp message a year before your anniversary, with gift ideas from verified vendors.",
+    href: "/start",
+  },
 ];
 
 const STEPS = [

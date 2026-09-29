@@ -10,6 +10,7 @@ import {
   countdownLabel,
   daysUntil,
   formatDate,
+  formatDayMonth,
   formatLongDate,
   formatNaira,
   waLink,
@@ -23,6 +24,7 @@ import {
   saveChecklist,
   saveDetails,
   saveEvents,
+  saveReminder,
   saveTheme,
   saveVendors,
 } from "./actions";
@@ -169,7 +171,70 @@ export function OverviewPanel({ wedding, slug, token, rsvps }: PanelProps & { rs
           See your invitation card
         </Link>
       </Section>
+
+      <ReminderSection wedding={wedding} slug={slug} token={token} />
     </div>
+  );
+}
+
+// Anniversary reminder (D-012): one WhatsApp message a year, only with a ticked yes.
+function ReminderSection({ wedding, slug, token }: PanelProps) {
+  const action = saveReminder.bind(null, slug, token);
+  if (!wedding.wedding_date) {
+    return (
+      <Section id="reminder" title="Anniversary reminder">
+        <p className="text-sm text-muted">
+          Add your wedding date on the{" "}
+          <Link href={`/w/${slug}/edit/${token}?tab=website#details`} className="text-wine underline underline-offset-4">
+            Website tab
+          </Link>{" "}
+          first. Then Together can remind you before each anniversary.
+        </p>
+      </Section>
+    );
+  }
+  const day = formatDayMonth(wedding.wedding_date);
+  return (
+    <Section id="reminder" title="Anniversary reminder">
+      {wedding.reminder_whatsapp ? (
+        <>
+          <p className="text-sm text-ink">
+            Together will message +{wedding.reminder_whatsapp} on WhatsApp about two weeks before {day} each year, with
+            gift ideas from verified vendors.
+          </p>
+          {wedding.reminder_consent_at ? (
+            <p className="mt-1 text-xs text-muted">You said yes on {formatDate(wedding.reminder_consent_at)}.</p>
+          ) : null}
+          <form action={action} className="mt-3">
+            <input type="hidden" name="stop" value="yes" />
+            <button type="submit" className={secondaryButton}>
+              Stop reminders
+            </button>
+          </form>
+        </>
+      ) : (
+        <form action={action} className="flex flex-col gap-4">
+          <p className="text-sm text-muted">
+            Every year, about two weeks before {day}, Together can send you one WhatsApp message with gift ideas from
+            verified vendors. Nothing else, and only if you ask.
+          </p>
+          <label className={labelClass}>
+            Your WhatsApp number
+            <input name="reminder_whatsapp" type="tel" inputMode="tel" required placeholder="0803 123 4567" className={inputClass} />
+          </label>
+          <label className="flex items-start gap-2.5 text-sm leading-relaxed text-ink">
+            <input type="checkbox" name="consent" value="yes" required className="mt-1 h-4 w-4 shrink-0 accent-wine" />
+            Yes, Together may send one WhatsApp message a year to this number, about two weeks before our anniversary,
+            with gift ideas. We can stop it here at any time, or by replying STOP.
+          </label>
+          <div>
+            <button type="submit" className={saveButton}>
+              Remind us every year
+            </button>
+          </div>
+        </form>
+      )}
+    </Section>
   );
 }
 

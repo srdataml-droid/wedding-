@@ -6,7 +6,7 @@ import { getPublicVendors } from "@/lib/data";
 import { CHECKLIST_IDS } from "@/lib/checklist";
 import { BUDGET_LINES, parseNaira, type BudgetLine } from "@/lib/budget";
 import { isThemeId } from "@/lib/themes";
-import { isIsoDate, isSlug, isUuid, text } from "@/lib/format";
+import { isIsoDate, isSlug, isUuid, text, waNumber } from "@/lib/format";
 import { isToken } from "@/lib/tokens";
 import { EVENT_SLOTS, type WeddingEvent } from "@/lib/weddings";
 
@@ -114,6 +114,18 @@ export async function saveBudget(slug: string, token: string, formData: FormData
   }
   const target = parseNaira(text(formData, "target", 20));
   await save(slug, token, { budget: { target, lines } }, "budget", "budget");
+}
+
+// Anniversary reminder (D-012). Turning it on needs the ticked consent box; the database
+// records when. An empty number turns it off.
+export async function saveReminder(slug: string, token: string, formData: FormData) {
+  if (text(formData, "stop", 3) === "yes") {
+    return save(slug, token, { reminder_whatsapp: "" }, "overview", "reminder");
+  }
+  const number = waNumber(text(formData, "reminder_whatsapp", 20));
+  if (number.length < 11 || number.length > 15) redirect(back(slug, token, "overview", "reminder", "error=whatsapp"));
+  if (text(formData, "consent", 3) !== "yes") redirect(back(slug, token, "overview", "reminder", "error=consent"));
+  await save(slug, token, { reminder_whatsapp: number }, "overview", "reminder");
 }
 
 export async function deleteWedding(slug: string, token: string, formData: FormData) {

@@ -9,7 +9,7 @@ import {
   startAdminSession,
 } from "@/lib/admin-auth";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { isUuid, slugify, text } from "@/lib/format";
+import { isUuid, slugify, text, todayInLagos } from "@/lib/format";
 import { hashToken, newToken } from "@/lib/tokens";
 
 export async function logIn(formData: FormData) {
@@ -146,6 +146,28 @@ export async function setItemHidden(formData: FormData) {
         .update({ hidden_at: hide ? new Date().toISOString() : null })
         .eq("id", id),
     hide ? "item-hidden" : "item-shown",
+  );
+}
+
+// Anniversary reminders (D-012). Samuel sends the WhatsApp message himself, then marks it
+// sent so the couple does not show as due again until next year.
+export async function markReminderSent(formData: FormData) {
+  await requireAdmin();
+  const id = idFrom(formData);
+  await run(
+    () => supabaseAdmin().from("weddings").update({ reminder_sent_on: todayInLagos() }).eq("id", id),
+    "reminder-sent",
+  );
+}
+
+// For a couple who replied STOP. Clears the number and the recorded yes together.
+export async function stopReminder(formData: FormData) {
+  await requireAdmin();
+  const id = idFrom(formData);
+  await run(
+    () =>
+      supabaseAdmin().from("weddings").update({ reminder_whatsapp: null, reminder_consent_at: null }).eq("id", id),
+    "reminder-stopped",
   );
 }
 

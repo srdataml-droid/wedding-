@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/admin-auth";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { SITE_URL, formatDate, formatMonth, formatNaira, waLink } from "@/lib/format";
+import { SITE_URL, formatDate, formatLongDate, formatMonth, formatNaira, ordinal, todayInLagos, waLink } from "@/lib/format";
 import { priceLabel } from "@/lib/market";
+import { reminderDue, reminderMessage } from "@/lib/reminders";
 import { isToken } from "@/lib/tokens";
 import { Stars } from "../_components/stars";
 import { cardClass, inputClass, secondaryButton } from "../_components/ui";
@@ -12,10 +13,12 @@ import {
   deleteReview,
   deleteVendor,
   logOut,
+  markReminderSent,
   newShopLink,
   setItemHidden,
   setVendorHidden,
   setWeddingHidden,
+  stopReminder,
   unverifyVendor,
   verifyVendor,
 } from "./actions";
@@ -75,6 +78,16 @@ type WeddingRow = {
   partner_two: string;
   wedding_date: string | null;
   hidden_at: string | null;
+  reminder_whatsapp: string | null;
+};
+
+type ReminderRow = {
+  id: string;
+  partner_one: string;
+  partner_two: string;
+  wedding_date: string | null;
+  reminder_whatsapp: string;
+  reminder_sent_on: string | null;
 };
 
 const MESSAGES: Record<string, string> = {
@@ -89,6 +102,8 @@ const MESSAGES: Record<string, string> = {
   "wedding-shown": "Wedding website back up.",
   "item-hidden": "Item taken down. The vendor can see that it was.",
   "item-shown": "Item back up.",
+  "reminder-sent": "Marked as sent. That couple will not show as due again until next year.",
+  "reminder-stopped": "Reminders stopped for that couple. Their number is deleted.",
 };
 
 const ERRORS: Record<string, string> = {
@@ -100,7 +115,7 @@ const ERRORS: Record<string, string> = {
 async function loadData() {
   const db = supabaseAdmin();
   const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-  const [vendors, reviews, enquiries, weddings, rsvps, items] = await Promise.all([
+  const [vendors, reviews, enquiries, weddings, rsvps, items, reminders] = await Promise.all([
     db.from("vendors").select("*").order("created_at", { ascending: false }).limit(1000),
     db
       .from("reviews")
@@ -111,7 +126,7 @@ async function loadData() {
     db.from("enquiries").select("vendor_id, listing_id").gte("created_at", since).limit(10000),
     db
       .from("weddings")
-      .select("id, created_at, slug, partner_one, partner_two, wedding_date, hidden_at")
+      .select("id, created_at, slug, partner_one, partner_two, wedding_date, hidden_at, reminder_whatsapp")
       .order("created_at", { ascending: false })
       .limit(200),
     db.from("rsvps").select("wedding_id").limit(20000),
@@ -120,8 +135,15 @@ async function loadData() {
       .select("id, created_at, vendor_id, title, price, price_unit, hidden_at, vendors(business_name)")
       .order("created_at", { ascending: false })
       .limit(300),
+    db
+      .from("weddings")
+      .select("id, partner_one, partner_two, wedding_date, reminder_whatsapp, reminder_sent_on")
+      .not("reminder_whatsapp", "is", null)
+      .is("hidden_at", null)
+      .limit(5000),
   ]);
-  const error = vendors.error ?? reviews.error ?? enquiries.error ?? weddings.error ?? rsvps.error ?? items.error;
+  const error =
+    vendors.error ?? reviews.error ?? enquiries.error ?? weddings.error ?? rsvps.error ?? items.error ?? reminders.error;
   if (error) throw error;
   const enquiryCounts = new Map<string, number>();
   const itemEnquiryCounts = new Map<string, number>();
@@ -147,6 +169,7 @@ async function loadData() {
     items: (items.data ?? []) as unknown as Item[],
     itemCounts,
     itemEnquiryCounts,
+    reminders: (reminders.data ?? []) as ReminderRow[],
   };
 }
 
@@ -178,6 +201,15 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
   const pending = data.vendors.filter((v) => !v.verified_at);
   const live = data.vendors.filter((v) => v.verified_at && !v.hidden_at);
   const hidden = data.vendors.filter((v) => v.verified_at && v.hidden_at);
+
+  // Couples whose anniversary is close and who have not had this year's message (D-012).
+  const today = todayInLagos();
+  const due = data.reminders
+    .flatMap((r) => {
+      const next = r.wedding_date ? reminderDue(r.wedding_date, r.reminder_sent_on, today) : null;
+      return next ? [{ ...r, ...next }] : [];
+    })
+    .sort((a, b) => a.daysAway - b.daysAway);
 
   // A shop link just made by newShopLink. Shown once: only its hash is stored.
   const token = typeof query.token === "string" && isToken(query.token) ? query.token : null;
@@ -361,6 +393,51 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
       </section>
 
       <section className="mt-10">
+        <h2 className="text-lg font-semibold text-ink">Anniversary reminders due ({due.length})</h2>
+        <p className="mt-1 text-sm text-muted">
+          {data.reminders.length} {data.reminders.length === 1 ? "couple has" : "couples have"} asked for a yearly
+          reminder. These have an anniversary in the next three weeks. Send the message, then mark it sent. If a couple
+          replies STOP, press Stop.
+        </p>
+        {due.length === 0 ? <p className="mt-2 text-sm text-muted">None due.</p> : null}
+        <ul className="mt-3 grid gap-3">
+          {due.map((r) => (
+            <li key={r.id} className={cardClass}>
+              <p className="font-medium text-ink">
+                {r.partner_one} &amp; {r.partner_two}
+              </p>
+              <p className="text-xs text-muted">
+                {ordinal(r.years)} anniversary on {formatLongDate(r.date)} ·{" "}
+                {r.daysAway === 0 ? "today" : `in ${r.daysAway} ${r.daysAway === 1 ? "day" : "days"}`} · +{r.reminder_whatsapp}
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <a
+                  href={waLink(r.reminder_whatsapp, reminderMessage(r.partner_one, r.partner_two, r.date, r.years))}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-lg bg-wine px-4 py-2.5 text-sm font-semibold text-white hover:bg-wine-deep"
+                >
+                  Send on WhatsApp
+                </a>
+                <form action={markReminderSent}>
+                  <Hidden id={r.id} />
+                  <button type="submit" className={secondaryButton}>
+                    Mark sent
+                  </button>
+                </form>
+                <form action={stopReminder}>
+                  <Hidden id={r.id} />
+                  <button type="submit" className={secondaryButton}>
+                    Stop
+                  </button>
+                </form>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mt-10">
         <h2 className="text-lg font-semibold text-ink">Live vendors ({live.length})</h2>
         <ul className="mt-3 grid gap-2">
           {live.map((v) => (
@@ -475,15 +552,26 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
                 <p className="text-xs text-muted">
                   Made {formatDate(w.created_at)}
                   {w.wedding_date ? ` · wedding ${w.wedding_date}` : ""} · {data.rsvpCounts.get(w.id) ?? 0} RSVPs
+                  {w.reminder_whatsapp ? " · anniversary reminder on" : ""}
                 </p>
               </div>
-              <form action={setWeddingHidden}>
-                <Hidden id={w.id} />
-                <input type="hidden" name="hide" value={w.hidden_at ? "false" : "true"} />
-                <button type="submit" className={secondaryButton}>
-                  {w.hidden_at ? "Put back up" : "Take down"}
-                </button>
-              </form>
+              <div className="flex flex-wrap gap-2">
+                {w.reminder_whatsapp ? (
+                  <form action={stopReminder}>
+                    <Hidden id={w.id} />
+                    <button type="submit" className={secondaryButton}>
+                      Stop reminder
+                    </button>
+                  </form>
+                ) : null}
+                <form action={setWeddingHidden}>
+                  <Hidden id={w.id} />
+                  <input type="hidden" name="hide" value={w.hidden_at ? "false" : "true"} />
+                  <button type="submit" className={secondaryButton}>
+                    {w.hidden_at ? "Put back up" : "Take down"}
+                  </button>
+                </form>
+              </div>
             </li>
           ))}
         </ul>
