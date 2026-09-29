@@ -29,10 +29,12 @@ export type PublicWedding = {
   events: WeddingEvent[];
   vendor_ids: string[];
   rsvp_open: boolean;
+  theme: string;
 };
 
 export type EditableWedding = PublicWedding & {
   checklist: Record<string, boolean>;
+  budget: unknown;
   hidden_at: string | null;
 };
 
@@ -50,7 +52,7 @@ export const EVENT_SLOTS = 4;
 export const DEFAULT_EVENT_TITLES = ["Traditional wedding", "Church wedding", "Reception", ""];
 
 const PUBLIC_COLUMNS =
-  "id, created_at, slug, partner_one, partner_two, wedding_date, hashtag, story, aso_ebi, events, vendor_ids, rsvp_open";
+  "id, created_at, slug, partner_one, partner_two, wedding_date, hashtag, story, aso_ebi, events, vendor_ids, rsvp_open, theme";
 
 export function newEditToken() {
   return randomBytes(24).toString("base64url");

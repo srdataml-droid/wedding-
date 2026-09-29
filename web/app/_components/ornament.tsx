@@ -18,8 +18,9 @@ export function WovenBand({ className = "" }: { className?: string }) {
       aria-hidden="true"
       className={`h-2 w-full ${className}`}
       style={{
+        // Uses the colour variables, so it follows a wedding website's design.
         backgroundImage:
-          "repeating-linear-gradient(90deg, #7b2340 0 14px, #9a7440 14px 18px, #f1e7d6 18px 22px, #9a7440 22px 26px)",
+          "repeating-linear-gradient(90deg, var(--color-wine) 0 14px, var(--color-gold) 14px 18px, var(--color-gold-soft) 18px 22px, var(--color-gold) 22px 26px)",
       }}
     />
   );

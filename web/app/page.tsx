@@ -10,7 +10,7 @@ const SHOW_COUNT_FROM = 5;
 const TOOLS = [
   {
     title: "Wedding website",
-    body: "Your story, every ceremony, aso-ebi and directions, on one link guests open on WhatsApp.",
+    body: "Your story, every ceremony, aso-ebi and directions, on one link guests open on WhatsApp. Four designs in aso-ebi colours.",
     href: "/start",
   },
   {
@@ -19,8 +19,8 @@ const TOOLS = [
     href: "/start",
   },
   {
-    title: "Planning checklist",
-    body: "A Nigerian wedding checklist, from the introduction to the final numbers for the caterer.",
+    title: "Checklist and budget",
+    body: "A Nigerian wedding checklist and a private budget tracker, with your countdown on one planner.",
     href: "/start",
   },
   {

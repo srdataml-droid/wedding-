@@ -25,7 +25,7 @@ Each slice is the smallest thing that can be shown to a vendor, built and shippe
 
 The full trust loop is built and live at https://together-seven-nu.vercel.app. Couples browse verified vendors, message them on WhatsApp and leave reviews. Vendors sign up at `/join`. Samuel verifies vendors and approves reviews at `/admin`. This absorbs the build part of Slices 1 to 3.
 
-Since D-010 couples also get the Zola or Knot side: a free wedding website at `/start` with ceremonies, aso-ebi, RSVP, a Nigerian wedding checklist and credits for the verified vendors they booked. Each website is a link couples share with every guest, so it doubles as the way new couples and vendors hear about Together.
+Since D-010 couples also get the Zola or Knot side: a free wedding website at `/start` with ceremonies, aso-ebi, RSVP, a Nigerian wedding checklist and credits for the verified vendors they booked. Since D-011 the couple's private link opens a planner with an Overview, four website designs and a private budget tracker. Each website is a link couples share with every guest, so it doubles as the way new couples and vendors hear about Together.
 
 What is left before the gate is market work: vendors verified, conversations written up, and the first couples making a website.
 
@@ -90,4 +90,4 @@ Name a price. Ask for it. Record every yes and no with the reason. Done when one
 
 ## 6. Out of scope until a paid transaction exists
 
-Couple accounts. Venues. Transport. Registry, gifting or bank details for cash gifts. Payments, escrow or bookings. Vendor accounts or login. Photo uploads. Budget tracker. Any city other than Lagos for the vendor directory. Any country other than Nigeria. Any ML. The couple-facing directory and reviews were brought forward by D-009, and wedding websites with RSVP by D-010; everything else on this list still waits.
+Couple accounts. Venues. Transport. Registry, gifting or bank details for cash gifts. Payments, escrow or bookings. Vendor accounts or login. Photo uploads. Guest-list import. Any city other than Lagos for the vendor directory. Any country other than Nigeria. Any ML. The couple-facing directory and reviews were brought forward by D-009, and wedding websites with RSVP by D-010; everything else on this list still waits.

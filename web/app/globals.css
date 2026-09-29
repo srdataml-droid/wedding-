@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
 /* One look everywhere. The page does not follow the phone's dark mode, so a vendor
-   or guest with dark mode on sees the same warm page as everyone else. */
-@theme inline {
+   or guest with dark mode on sees the same warm page as everyone else.
+   Colours are real CSS variables (not inlined), so a wedding website can swap its
+   palette by setting them on a wrapper. See lib/themes.ts. */
+@theme {
   --color-paper: #f8f4ee;
   --color-card: #ffffff;
   --color-ink: #1f1b18;
@@ -11,8 +13,11 @@
   --color-wine: #7b2340;
   --color-wine-deep: #5e1a31;
   --color-blush: #fbeef1;
-  --color-gold: #9a7440;
+  --color-gold: #8a6a35;
   --color-gold-soft: #f1e7d6;
+}
+
+@theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-display: var(--font-cormorant);

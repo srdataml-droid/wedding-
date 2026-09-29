@@ -49,6 +49,14 @@ export function daysUntil(isoDate: string) {
   return Math.round((target - today) / 86_400_000);
 }
 
+export function countdownLabel(isoDate: string) {
+  const days = daysUntil(isoDate);
+  if (days > 1) return `${days} days to go`;
+  if (days === 1) return "Tomorrow";
+  if (days === 0) return "Today";
+  return "Married";
+}
+
 export function mapsLink(place: string) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place)}`;
 }

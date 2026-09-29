@@ -9,7 +9,7 @@ A Zola or Knot type of site for Lagos (D-009, D-010). Couples make a free weddin
 | `/` | Couples | Home: wedding website, checklist, RSVP and verified vendors in one place |
 | `/start` | Couples | Create a free wedding website. No account; the couple gets a private edit link |
 | `/w/[slug]` | Guests | The wedding website: story, ceremonies with directions, aso-ebi, RSVP, credited vendors. Not indexed by search engines |
-| `/w/[slug]/edit/[token]` | Couples | Private edit page: RSVP list, checklist, details, ceremonies, vendors, delete |
+| `/w/[slug]/edit/[token]` | Couples | Private planner (D-011), tabs chosen with `?tab=`: overview (countdown, progress, next tasks, sharing), website (design, details, ceremonies, delete), guests (RSVPs), checklist, budget, vendors |
 | `/vendors` | Couples | Directory of verified vendors, filter by category, area and name |
 | `/vendors/[slug]` | Couples | Profile: what was checked, reviews, WhatsApp button (logs an enquiry) |
 | `/vendors/[slug]/review` | Couples | Leave a review. Hidden until approved |
@@ -37,7 +37,7 @@ Row Level Security, see `supabase/migrations/`:
 - It can add a review for a verified vendor, but cannot approve it, and can read only approved reviews.
 - It can never read a reviewer's WhatsApp number.
 - It can log an enquiry, but cannot read enquiries.
-- It can create a wedding website and read visible ones, but never the edit token hash or the couple's checklist.
+- It can create a wedding website and read visible ones, including the design colour, but never the edit token hash, the couple's checklist or their budget.
 - It can send an RSVP to an open, visible wedding, but can never read RSVPs.
 - Couples change their site only through four functions (`wedding_for_edit`, `update_wedding`, `wedding_rsvps`, `delete_wedding`). Each checks the SHA-256 hash of the private token first. The token itself is never stored.
 - The secret key, used only by `/admin` after the password check, can do everything.

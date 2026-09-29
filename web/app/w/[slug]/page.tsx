@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { daysUntil, formatLongDate, formatTime, isSlug, mapsLink } from "@/lib/format";
+import { countdownLabel, formatLongDate, formatTime, isSlug, mapsLink } from "@/lib/format";
 import { getPublicWedding, getVendorsByIds, sortEvents } from "@/lib/weddings";
+import { themeStyle } from "@/lib/themes";
 import { Ornament, WovenBand } from "../../_components/ornament";
 import { cardClass, inputClass, labelClass, primaryButton } from "../../_components/ui";
 import { sendRsvp } from "./actions";
@@ -26,14 +27,6 @@ const RSVP_MESSAGES: Record<string, { text: string; tone: "ok" | "error" }> = {
   save: { text: "Something went wrong sending your reply. Please try again.", tone: "error" },
 };
 
-function countdown(date: string) {
-  const days = daysUntil(date);
-  if (days > 1) return `${days} days to go`;
-  if (days === 1) return "Tomorrow";
-  if (days === 0) return "Today";
-  return "Married";
-}
-
 export default async function WeddingPage({ params, searchParams }: PageProps<"/w/[slug]">) {
   const [{ slug }, query] = await Promise.all([params, searchParams]);
   if (!isSlug(slug)) notFound();
@@ -48,7 +41,7 @@ export default async function WeddingPage({ params, searchParams }: PageProps<"/
   const names = `${wedding.partner_one} & ${wedding.partner_two}`;
 
   return (
-    <main className="pb-16">
+    <main className="pb-16" style={themeStyle(wedding.theme)}>
       <WovenBand />
       <section className="mx-auto w-full max-w-2xl px-4 pb-6 pt-12 text-center">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold">The wedding of</p>
@@ -57,7 +50,7 @@ export default async function WeddingPage({ params, searchParams }: PageProps<"/
         {wedding.wedding_date ? (
           <p className="mt-5 text-lg text-ink">
             {formatLongDate(wedding.wedding_date)}
-            <span className="mt-1 block text-sm text-muted">{countdown(wedding.wedding_date)}</span>
+            <span className="mt-1 block text-sm text-muted">{countdownLabel(wedding.wedding_date)}</span>
           </p>
         ) : null}
         {wedding.hashtag ? <p className="mt-3 font-display text-2xl text-wine">{`#${wedding.hashtag}`}</p> : null}

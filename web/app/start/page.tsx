@@ -15,7 +15,8 @@ const FEATURES = [
   "Your story, every ceremony, times and directions",
   "Aso-ebi colours and how guests can order",
   "Online RSVP, with one list of who is coming",
-  "A Nigerian wedding checklist to keep you on track",
+  "A Nigerian wedding checklist and a private budget tracker",
+  "Four designs in aso-ebi colours: wine, emerald, royal blue, coral",
   "Credit the verified vendors you booked",
 ];
 

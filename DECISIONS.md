@@ -97,6 +97,18 @@ Format: ID, date, decision, who decided, objection, why overruled, revisit when.
 - **Why overruled:** The founder's call. The wedding website is also the growth loop: each couple shares their link with every guest, and each page credits verified vendors and invites guests to make their own. It costs nothing to run and needs no new secret.
 - **Revisit when:** 25 Oct 2026 gate. Measure how many couples made a site, how many RSVPs came in, and how many vendors were credited.
 
+## D-011. More like The Knot or Zola: a planner dashboard, website designs, a budget tracker
+
+- **Date:** 29 Sep 2026
+- **Decided by:** Samuel ("i wanna make it like either the knot or zola wedding app... lets do that a bit").
+- **Decision:** The couple's private edit page becomes a planner with six tabs: Overview, Website, Guests, Checklist, Budget, Vendors. Overview shows the countdown, checklist progress, guests coming, budget paid and vendors booked, plus the next three open tasks. Wedding websites get four designs in aso-ebi colours: wine, emerald, royal blue, coral. A private budget tracker records planned and paid amounts across 13 Nigerian wedding costs against an optional total.
+- **Pulled from the backlog:** the budget tracker (parked by D-010). Guest-list import, couple accounts, registry and bank details stay parked.
+- **Privacy:** the budget is private like the checklist. The public key cannot read it; only the couple's private link can. The design colour is public, because guests' pages need it.
+- **Objection (Simplifier):** Samuel has not yet tried D-010 himself, and no couple has used it. This polishes a tool with no users.
+- **Objection (BENCH):** The admin page is still switched off, so the only defence against abusive wedding pages is not working. This build does not fix that.
+- **Why overruled:** The founder's call. It is small, adds no new secret, moves no money and keeps the same privacy model. The admin gap is Samuel's to close in Vercel, and it is first on his action list.
+- **Revisit when:** 25 Oct 2026 gate, with the D-010 measures.
+
 ---
 
 ## Backlog (parked by D-001, not in the plan)
@@ -109,4 +121,4 @@ Format: ID, date, decision, who decided, objection, why overruled, revisit when.
 | 26 Sep 2026 | Ideator | Pan-African expansion | D-001 |
 | 28 Sep 2026 | Chair | Gift registry, or bank details for cash gifts on wedding sites | D-010: money and fraud risk, Samuel decides |
 | 28 Sep 2026 | Chair | Couple accounts, so a lost edit link can be recovered | D-010 |
-| 28 Sep 2026 | Chair | Budget tracker and guest-list import | D-010 |
+| 28 Sep 2026 | Chair | Guest-list import (the budget tracker was built by D-011) | D-010 |
