@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { requireAdmin } from "@/lib/admin-auth";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { formatDate, formatMonth, formatNaira, waLink } from "@/lib/format";
+import { SITE_URL, formatDate, formatMonth, formatNaira, waLink } from "@/lib/format";
+import { priceLabel } from "@/lib/market";
+import { isToken } from "@/lib/tokens";
 import { Stars } from "../_components/stars";
 import { cardClass, inputClass, secondaryButton } from "../_components/ui";
 import {
@@ -10,13 +12,20 @@ import {
   deleteReview,
   deleteVendor,
   logOut,
+  newShopLink,
+  setItemHidden,
   setVendorHidden,
   setWeddingHidden,
   unverifyVendor,
   verifyVendor,
 } from "./actions";
 
-export const metadata: Metadata = { title: "Admin", robots: { index: false, follow: false } };
+export const metadata: Metadata = {
+  title: "Admin",
+  robots: { index: false, follow: false },
+  // A new shop link sits in this page's address until it is sent. Never send it to other sites.
+  referrer: "no-referrer",
+};
 
 type Vendor = {
   id: string;
@@ -33,6 +42,18 @@ type Vendor = {
   verified_at: string | null;
   verified_note: string | null;
   hidden_at: string | null;
+  shop_token_hash: string | null;
+};
+
+type Item = {
+  id: string;
+  created_at: string;
+  vendor_id: string;
+  title: string;
+  price: number | null;
+  price_unit: string | null;
+  hidden_at: string | null;
+  vendors: { business_name: string } | null;
 };
 
 type PendingReview = {
@@ -66,6 +87,8 @@ const MESSAGES: Record<string, string> = {
   "review-deleted": "Review deleted.",
   "wedding-hidden": "Wedding website taken down.",
   "wedding-shown": "Wedding website back up.",
+  "item-hidden": "Item taken down. The vendor can see that it was.",
+  "item-shown": "Item back up.",
 };
 
 const ERRORS: Record<string, string> = {
@@ -77,7 +100,7 @@ const ERRORS: Record<string, string> = {
 async function loadData() {
   const db = supabaseAdmin();
   const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
-  const [vendors, reviews, enquiries, weddings, rsvps] = await Promise.all([
+  const [vendors, reviews, enquiries, weddings, rsvps, items] = await Promise.all([
     db.from("vendors").select("*").order("created_at", { ascending: false }).limit(1000),
     db
       .from("reviews")
@@ -85,19 +108,30 @@ async function loadData() {
       .is("approved_at", null)
       .order("created_at", { ascending: true })
       .limit(200),
-    db.from("enquiries").select("vendor_id").gte("created_at", since).limit(10000),
+    db.from("enquiries").select("vendor_id, listing_id").gte("created_at", since).limit(10000),
     db
       .from("weddings")
       .select("id, created_at, slug, partner_one, partner_two, wedding_date, hidden_at")
       .order("created_at", { ascending: false })
       .limit(200),
     db.from("rsvps").select("wedding_id").limit(20000),
+    db
+      .from("listings")
+      .select("id, created_at, vendor_id, title, price, price_unit, hidden_at, vendors(business_name)")
+      .order("created_at", { ascending: false })
+      .limit(300),
   ]);
-  const error = vendors.error ?? reviews.error ?? enquiries.error ?? weddings.error ?? rsvps.error;
+  const error = vendors.error ?? reviews.error ?? enquiries.error ?? weddings.error ?? rsvps.error ?? items.error;
   if (error) throw error;
   const enquiryCounts = new Map<string, number>();
-  for (const row of (enquiries.data ?? []) as { vendor_id: string }[]) {
+  const itemEnquiryCounts = new Map<string, number>();
+  for (const row of (enquiries.data ?? []) as { vendor_id: string; listing_id: string | null }[]) {
     enquiryCounts.set(row.vendor_id, (enquiryCounts.get(row.vendor_id) ?? 0) + 1);
+    if (row.listing_id) itemEnquiryCounts.set(row.listing_id, (itemEnquiryCounts.get(row.listing_id) ?? 0) + 1);
+  }
+  const itemCounts = new Map<string, number>();
+  for (const item of (items.data ?? []) as unknown as Item[]) {
+    itemCounts.set(item.vendor_id, (itemCounts.get(item.vendor_id) ?? 0) + 1);
   }
   const rsvpCounts = new Map<string, number>();
   for (const row of (rsvps.data ?? []) as { wedding_id: string }[]) {
@@ -110,6 +144,9 @@ async function loadData() {
     enquiryTotal: enquiries.data?.length ?? 0,
     weddings: (weddings.data ?? []) as WeddingRow[],
     rsvpCounts,
+    items: (items.data ?? []) as unknown as Item[],
+    itemCounts,
+    itemEnquiryCounts,
   };
 }
 
@@ -141,6 +178,11 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
   const pending = data.vendors.filter((v) => !v.verified_at);
   const live = data.vendors.filter((v) => v.verified_at && !v.hidden_at);
   const hidden = data.vendors.filter((v) => v.verified_at && v.hidden_at);
+
+  // A shop link just made by newShopLink. Shown once: only its hash is stored.
+  const token = typeof query.token === "string" && isToken(query.token) ? query.token : null;
+  const shopVendor = token ? data.vendors.find((v) => v.id === query.shop && v.slug) : undefined;
+  const shopLink = token && shopVendor ? `${SITE_URL}/vendors/${shopVendor.slug}/shop/${token}` : null;
 
   return (
     <main className="mx-auto w-full max-w-2xl px-4 pb-16 pt-8">
@@ -176,6 +218,28 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
         <p role="alert" className="mt-4 rounded-lg border border-wine/30 bg-blush px-4 py-3 text-sm text-wine-deep">
           {error}
         </p>
+      ) : null}
+
+      {shopVendor && shopLink ? (
+        <section id="shop-link" className="mt-4 rounded-2xl border border-gold bg-gold-soft p-4">
+          <p className="font-semibold text-ink">Shop link for {shopVendor.business_name}</p>
+          <p className="mt-1 text-sm text-muted">
+            Send it now. It is shown only this once, because only its hash is stored. Any older link for this vendor
+            has stopped working.
+          </p>
+          <input readOnly value={shopLink} className={`${inputClass} font-mono text-xs`} aria-label="Shop link" />
+          <a
+            href={waLink(
+              shopVendor.whatsapp,
+              `Hi ${shopVendor.business_name}, this is Samuel from Together. Here is your private shop link. Use it to add what you sell to the Together market. Keep it private, it works like a key: ${shopLink}`,
+            )}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-block rounded-lg bg-wine px-4 py-2.5 text-sm font-semibold text-white hover:bg-wine-deep"
+          >
+            Send it to them on WhatsApp
+          </a>
+        </section>
       ) : null}
 
       <section className="mt-8">
@@ -310,10 +374,17 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
                   <span className="font-medium text-ink">{v.business_name}</span>
                 )}
                 <p className="text-xs text-muted">
-                  {v.category} · {v.area} · {data.enquiryCounts.get(v.id) ?? 0} enquiries in 30 days
+                  {v.category} · {v.area} · {data.enquiryCounts.get(v.id) ?? 0} enquiries in 30 days ·{" "}
+                  {data.itemCounts.get(v.id) ?? 0} items
                 </p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
+                <form action={newShopLink}>
+                  <Hidden id={v.id} />
+                  <button type="submit" className={secondaryButton}>
+                    {v.shop_token_hash ? "New shop link" : "Shop link"}
+                  </button>
+                </form>
                 <form action={setVendorHidden}>
                   <Hidden id={v.id} />
                   <input type="hidden" name="hide" value="true" />
@@ -352,6 +423,35 @@ export default async function AdminPage({ searchParams }: PageProps<"/admin">) {
           </ul>
         </section>
       ) : null}
+
+      <section className="mt-10">
+        <h2 className="text-lg font-semibold text-ink">Market items ({data.items.length})</h2>
+        <p className="mt-1 text-sm text-muted">
+          Vendors add these through their shop link. Take one down if it looks like a scam, breaks the law or has
+          nothing to do with weddings.
+        </p>
+        {data.items.length === 0 ? <p className="mt-2 text-sm text-muted">No items yet.</p> : null}
+        <ul className="mt-3 grid gap-2">
+          {data.items.map((item) => (
+            <li key={item.id} className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-line bg-card px-4 py-3">
+              <div className="min-w-0">
+                <p className={item.hidden_at ? "font-medium text-muted line-through" : "font-medium text-ink"}>{item.title}</p>
+                <p className="text-xs text-muted">
+                  {priceLabel(item)} · {item.vendors?.business_name ?? "a deleted vendor"} · added {formatDate(item.created_at)} ·{" "}
+                  {data.itemEnquiryCounts.get(item.id) ?? 0} enquiries in 30 days
+                </p>
+              </div>
+              <form action={setItemHidden}>
+                <Hidden id={item.id} />
+                <input type="hidden" name="hide" value={item.hidden_at ? "false" : "true"} />
+                <button type="submit" className={secondaryButton}>
+                  {item.hidden_at ? "Put back up" : "Take down"}
+                </button>
+              </form>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <section className="mt-10">
         <h2 className="text-lg font-semibold text-ink">Wedding websites ({data.weddings.length})</h2>

@@ -48,7 +48,9 @@ export default async function JoinPage({ searchParams }: PageProps<"/join">) {
         <p className="mt-3 text-base leading-relaxed text-muted">
           Together lists Lagos wedding vendors that couples can trust. Sign up
           below. We will meet you or video-call you, check your past work, and
-          then put your profile live. It is free.
+          then put your profile live. It is free. Once you are verified, you
+          can also list what you sell, products or services, in the Together
+          market.
         </p>
         {count !== null && count >= SHOW_COUNT_FROM ? (
           <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-line bg-card px-3 py-1 text-sm font-medium text-ink">

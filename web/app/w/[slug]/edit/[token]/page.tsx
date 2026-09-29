@@ -3,7 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPublicVendors } from "@/lib/data";
 import { SITE_URL, isSlug, waShare } from "@/lib/format";
-import { getRsvps, getWeddingForEdit, isToken } from "@/lib/weddings";
+import { isToken } from "@/lib/tokens";
+import { getRsvps, getWeddingForEdit } from "@/lib/weddings";
 import { eyebrow, inputClass, secondaryButton } from "../../../../_components/ui";
 import { BudgetPanel, ChecklistPanel, GuestsPanel, OverviewPanel, VendorsPanel, WebsitePanel } from "./panels";
 

@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { isIsoDate, slugify, text } from "@/lib/format";
-import { hashToken, newEditToken } from "@/lib/weddings";
+import { hashToken, newToken } from "@/lib/tokens";
 
 export async function createWedding(formData: FormData) {
   // Spam bots fill every field, including the hidden one. People never see it.
@@ -16,7 +16,7 @@ export async function createWedding(formData: FormData) {
   if (!partnerOne || !partnerTwo) redirect("/start?error=missing");
   if (weddingDate && !isIsoDate(weddingDate)) redirect("/start?error=date");
 
-  const token = newEditToken();
+  const token = newToken();
   let slug = "";
   let saved = false;
 

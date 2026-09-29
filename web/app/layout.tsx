@@ -42,10 +42,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </Link>
             <div className="flex items-center gap-3 text-sm sm:gap-5">
               <Link href="/start" className="text-ink hover:text-wine">
-                Wedding website
+                <span className="sm:hidden">Website</span>
+                <span className="hidden sm:inline">Wedding website</span>
               </Link>
               <Link href="/vendors" className="text-ink hover:text-wine">
                 Vendors
+              </Link>
+              <Link href="/market" className="text-ink hover:text-wine">
+                Market
               </Link>
               <Link href="/join" className="hidden text-wine hover:text-wine-deep sm:inline">
                 For vendors

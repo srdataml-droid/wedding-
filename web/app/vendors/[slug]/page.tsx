@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getApprovedReviews, getVendorBySlug } from "@/lib/data";
+import { getVendorItems } from "@/lib/market";
 import { formatDate, formatMonth, formatNaira, isSlug } from "@/lib/format";
+import { ItemCard } from "../../_components/item-card";
 import { RatingLine, Stars } from "../../_components/stars";
 import { cardClass, primaryButton, secondaryButton } from "../../_components/ui";
 import { contactVendor } from "./actions";
@@ -24,7 +26,7 @@ export default async function VendorPage({ params, searchParams }: PageProps<"/v
   const vendor = await getVendorBySlug(slug);
   if (!vendor) notFound();
 
-  const reviews = await getApprovedReviews(vendor.id);
+  const [reviews, items] = await Promise.all([getApprovedReviews(vendor.id), getVendorItems(vendor.id)]);
   const rating = reviews.length
     ? { average: reviews.reduce((s, r) => s + r.rating, 0) / reviews.length, count: reviews.length }
     : undefined;
@@ -85,6 +87,17 @@ export default async function VendorPage({ params, searchParams }: PageProps<"/v
           You talk to the vendor directly. Together takes no fee and never holds your money.
         </p>
       </section>
+
+      {items.length > 0 ? (
+        <section id="sells" className="mt-8">
+          <h2 className="text-lg font-semibold text-ink">What they sell</h2>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            {items.map((item) => (
+              <ItemCard key={item.id} item={item} showVendor={false} />
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <section className="mt-8">
         <div className="flex items-baseline justify-between gap-3">

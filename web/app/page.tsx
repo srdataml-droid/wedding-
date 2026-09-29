@@ -14,8 +14,8 @@ const TOOLS = [
     href: "/start",
   },
   {
-    title: "Online RSVP",
-    body: "Guests reply on your website. You see who is coming, and how many, in one list.",
+    title: "Invitations and RSVP",
+    body: "An invitation card made from your website, ready to send on WhatsApp. Guests reply online, and you see who is coming.",
     href: "/start",
   },
   {
@@ -27,6 +27,11 @@ const TOOLS = [
     title: "Verified vendors",
     body: "Every vendor is met or video-called, and their past work checked, before they appear here.",
     href: "/vendors",
+  },
+  {
+    title: "Market",
+    body: "Aso-ebi, souvenirs, cakes, gifts and services from verified vendors. Ask the seller on WhatsApp.",
+    href: "/market",
   },
 ];
 

@@ -1,5 +1,4 @@
 import "server-only";
-import { createHash, randomBytes } from "node:crypto";
 import { connection } from "next/server";
 import { supabase } from "./supabase";
 import type { PublicVendor } from "./data";
@@ -53,18 +52,6 @@ export const DEFAULT_EVENT_TITLES = ["Traditional wedding", "Church wedding", "R
 
 const PUBLIC_COLUMNS =
   "id, created_at, slug, partner_one, partner_two, wedding_date, hashtag, story, aso_ebi, events, vendor_ids, rsvp_open, theme";
-
-export function newEditToken() {
-  return randomBytes(24).toString("base64url");
-}
-
-export function hashToken(token: string) {
-  return createHash("sha256").update(token, "utf8").digest("hex");
-}
-
-export function isToken(value: string) {
-  return /^[A-Za-z0-9_-]{32}$/.test(value);
-}
 
 export async function getPublicWedding(slug: string): Promise<PublicWedding | null> {
   await connection();

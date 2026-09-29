@@ -10,6 +10,7 @@ import {
 } from "@/lib/admin-auth";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { isUuid, slugify, text } from "@/lib/format";
+import { hashToken, newToken } from "@/lib/tokens";
 
 export async function logIn(formData: FormData) {
   if (!adminConfigured()) redirect("/admin/login");
@@ -111,6 +112,41 @@ export async function deleteReview(formData: FormData) {
   await requireAdmin();
   const id = idFrom(formData);
   await run(() => supabaseAdmin().from("reviews").delete().eq("id", id), "review-deleted");
+}
+
+// Makes a new private shop link for a vendor (D-012). Any older link stops working.
+// The token is shown once, to Samuel, so he can send it to the vendor. Only its hash is kept.
+export async function newShopLink(formData: FormData) {
+  await requireAdmin();
+  const id = idFrom(formData);
+  const token = newToken();
+  let failed = false;
+  try {
+    const { error } = await supabaseAdmin().from("vendors").update({ shop_token_hash: hashToken(token) }).eq("id", id);
+    if (error) {
+      console.error("shop link failed", error);
+      failed = true;
+    }
+  } catch (err) {
+    console.error("shop link failed", err);
+    failed = true;
+  }
+  redirect(failed ? "/admin?error=save" : `/admin?shop=${id}&token=${token}#shop-link`);
+}
+
+// Takes a market item down, or puts it back. The vendor sees that it was taken down.
+export async function setItemHidden(formData: FormData) {
+  await requireAdmin();
+  const id = idFrom(formData);
+  const hide = text(formData, "hide", 5) === "true";
+  await run(
+    () =>
+      supabaseAdmin()
+        .from("listings")
+        .update({ hidden_at: hide ? new Date().toISOString() : null })
+        .eq("id", id),
+    hide ? "item-hidden" : "item-shown",
+  );
 }
 
 // Takes a wedding website down, or puts it back. For scams, abuse or a couple's request.

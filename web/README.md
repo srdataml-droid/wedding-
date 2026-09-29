@@ -1,6 +1,6 @@
 # Together: web
 
-A Zola or Knot type of site for Lagos (D-009, D-010). Couples make a free wedding website with RSVP and a checklist, find verified vendors, message them on WhatsApp and review them. Samuel verifies vendors, approves reviews and can take down wedding sites on a password-protected admin page.
+A Zola or Knot type of site for Lagos (D-009 to D-012). Couples make a free wedding website with RSVP, an invitation card and a checklist, find verified vendors, buy from them in the market, message them on WhatsApp and review them. Samuel verifies vendors, sends them shop links, approves reviews and can take down wedding sites and market items on a password-protected admin page.
 
 ## Pages
 
@@ -12,11 +12,13 @@ A Zola or Knot type of site for Lagos (D-009, D-010). Couples make a free weddin
 | `/w/[slug]/card` | Guests | The invitation card as an image (D-012). The wide version is the preview WhatsApp shows for the website link; `?format=tall` is for family groups and WhatsApp status |
 | `/w/[slug]/edit/[token]` | Couples | Private planner (D-011), tabs chosen with `?tab=`: overview (countdown, progress, next tasks, sharing), website (design, details, ceremonies, delete), guests (invitation card, RSVPs), checklist, budget, vendors |
 | `/vendors` | Couples | Directory of verified vendors, filter by category, area and name |
-| `/vendors/[slug]` | Couples | Profile: what was checked, reviews, WhatsApp button (logs an enquiry) |
+| `/vendors/[slug]` | Couples | Profile: what was checked, what they sell, reviews, WhatsApp button (logs an enquiry) |
 | `/vendors/[slug]/review` | Couples | Leave a review. Hidden until approved |
+| `/market` | Couples | Products and services from verified vendors (D-012), filter by products, services, gifts, vendor type and words. "Ask on WhatsApp" logs an enquiry for the item |
+| `/vendors/[slug]/shop/[token]` | Vendors | Private shop page: add, change and remove what they sell. No account; the link comes from Samuel |
 | `/join` | Vendors | Sign up. Not public until verified |
 | `/thanks` | Vendors | After sign-up, with a share-on-WhatsApp button |
-| `/admin` | Samuel | Verify vendors, approve reviews, hide or delete, enquiry counts, take down wedding sites |
+| `/admin` | Samuel | Verify vendors, send shop links, approve reviews, hide or delete, enquiry counts, take down wedding sites and market items |
 
 ## Environment variables
 
@@ -34,16 +36,25 @@ The public pages work without the last two. `/admin` shows setup instructions un
 Row Level Security, see `supabase/migrations/`:
 
 - The public key can add a vendor sign-up, but cannot mark it verified.
-- It can read verified, visible vendors only.
+- It can read verified, visible vendors only, and only a fixed list of their columns, never the hash of their shop link.
+- It can read the market items of verified, visible vendors, except items Samuel has taken down. It cannot add or change items.
+- Vendors change their items only through three functions (`shop_for_edit`, `save_listing`, `delete_listing`). Each checks the SHA-256 hash of the private shop token first. A shop holds at most 30 items.
 - It can add a review for a verified vendor, but cannot approve it, and can read only approved reviews.
 - It can never read a reviewer's WhatsApp number.
-- It can log an enquiry, but cannot read enquiries.
+- It can log an enquiry, but cannot read enquiries. An enquiry can name an item only if it belongs to the same vendor.
 - It can create a wedding website and read visible ones, including the design colour, but never the edit token hash, the couple's checklist or their budget.
 - It can send an RSVP to an open, visible wedding, but can never read RSVPs.
 - Couples change their site only through four functions (`wedding_for_edit`, `update_wedding`, `wedding_rsvps`, `delete_wedding`). Each checks the SHA-256 hash of the private token first. The token itself is never stored.
 - The secret key, used only by `/admin` after the password check, can do everything.
 
-The Supabase security advisor warns that `vendor_count()` and the four wedding functions are security definer functions callable by the anonymous role. That is intentional: `vendor_count()` returns only a number, and each wedding function refuses to do anything without the couple's token.
+The Supabase security advisor warns that `vendor_count()`, the four wedding functions and the three shop functions are security definer functions callable by the anonymous role. That is intentional: `vendor_count()` returns only a number, and each of the others refuses to do anything without the right private token.
+
+## Market: things to know
+
+- Only verified vendors sell. After verifying a vendor, press "Shop link" next to them in `/admin` and send the link on WhatsApp with the button that appears. It is shown once, because only its hash is stored. "New shop link" replaces a lost one, and the old one stops working.
+- If a vendor is unverified or hidden, their items leave the market with them, and come back if they do.
+- There are no photos and no checkout. Couples see work on the vendor's Instagram and pay the vendor directly. Together never takes payment.
+- Take down any item that looks like a scam or has nothing to do with weddings. The vendor sees that it was taken down.
 
 ## Wedding websites: things to know
 

@@ -7,7 +7,8 @@ import { CHECKLIST_IDS } from "@/lib/checklist";
 import { BUDGET_LINES, parseNaira, type BudgetLine } from "@/lib/budget";
 import { isThemeId } from "@/lib/themes";
 import { isIsoDate, isSlug, isUuid, text } from "@/lib/format";
-import { EVENT_SLOTS, isToken, type WeddingEvent } from "@/lib/weddings";
+import { isToken } from "@/lib/tokens";
+import { EVENT_SLOTS, type WeddingEvent } from "@/lib/weddings";
 
 function editBase(slug: string, token: string) {
   if (!isSlug(slug) || !isToken(token)) redirect("/");

@@ -3,23 +3,31 @@
 import { redirect } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { getVendorBySlug } from "@/lib/data";
-import { SITE_URL, isSlug, text, waLink } from "@/lib/format";
+import { getMarketItem, priceLabel } from "@/lib/market";
+import { SITE_URL, isSlug, isUuid, text, waLink } from "@/lib/format";
 
 // Logs the enquiry, then hands the couple to WhatsApp. The number comes from the
 // database, never from the form, so nobody can redirect couples elsewhere.
-export async function contactVendor(slug: string) {
+// From a market item (D-012) the form carries the item's id, and the message names it.
+export async function contactVendor(slug: string, formData?: FormData) {
   if (!isSlug(slug)) redirect("/vendors");
   const vendor = await getVendorBySlug(slug);
   if (!vendor) redirect("/vendors");
 
+  const itemId = formData ? text(formData, "item", 36) : "";
+  const found = isUuid(itemId) ? await getMarketItem(itemId) : null;
+  const item = found && found.vendor.id === vendor.id ? found : null;
+
   try {
-    const { error } = await supabase().from("enquiries").insert({ vendor_id: vendor.id });
+    const { error } = await supabase().from("enquiries").insert({ vendor_id: vendor.id, listing_id: item?.id ?? null });
     if (error) console.error("enquiry insert failed", error);
   } catch (err) {
     console.error("enquiry insert failed", err);
   }
 
-  const message = `Hi ${vendor.business_name}, I found you on Together (${SITE_URL}). I'm planning a wedding and would like to ask about your services.`;
+  const message = item
+    ? `Hi ${vendor.business_name}, I saw "${item.title}" (${priceLabel(item)}) on Together: ${SITE_URL}/vendors/${vendor.slug}#item-${item.id}. Is it available?`
+    : `Hi ${vendor.business_name}, I found you on Together (${SITE_URL}). I'm planning a wedding and would like to ask about your services.`;
   redirect(waLink(vendor.whatsapp, message));
 }
 
