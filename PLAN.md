@@ -2,7 +2,7 @@
 
 Owner: Samuel. Change this file only through an entry in `DECISIONS.md`.
 
-Revised 26 Sep 2026 after D-005 (one founder), D-006 (build started) and D-008 (deployment). Dates in **bold** are fixed. Dates marked *(proposed)* are a draft to confirm at the next gate.
+Revised 26 Sep 2026 after D-005 (one founder), D-006 (build started) and D-008 (deployment). Build status and scope updated for D-009 to D-012, 27 to 29 Sep 2026. Dates in **bold** are fixed. Dates marked *(proposed)* are a draft to confirm at the next gate.
 
 ## 1. Scope and constraints
 
@@ -21,13 +21,15 @@ Discovery exists to replace the bracketed list with what vendors actually say.
 
 Each slice is the smallest thing that can be shown to a vendor, built and shipped before the next one starts. Discovery runs alongside every slice and feeds the gates.
 
-### Build status (D-009, 27 Sep 2026; D-010, 28 Sep 2026)
+### Build status (D-009, 27 Sep 2026; D-010, 28 Sep; D-011 and D-012, 29 Sep)
 
 The full trust loop is built and live at https://together-seven-nu.vercel.app. Couples browse verified vendors, message them on WhatsApp and leave reviews. Vendors sign up at `/join`. Samuel verifies vendors and approves reviews at `/admin`. This absorbs the build part of Slices 1 to 3.
 
 Since D-010 couples also get the Zola or Knot side: a free wedding website at `/start` with ceremonies, aso-ebi, RSVP, a Nigerian wedding checklist and credits for the verified vendors they booked. Since D-011 the couple's private link opens a planner with an Overview, four website designs and a private budget tracker. Each website is a link couples share with every guest, so it doubles as the way new couples and vendors hear about Together.
 
-What is left before the gate is market work: vendors verified, conversations written up, and the first couples making a website.
+Since D-012 (29 Sep 2026) there is also a market at `/market`, where verified vendors list products and services through a private shop link and couples ask them on WhatsApp; an invitation card that shows whenever a wedding link is shared on WhatsApp; and anniversary reminders that couples ask for and Samuel sends by hand from `/admin`. No money moves through any of it.
+
+What is left before the gate is field work: vendors verified, conversations written up, and the first couples making a website.
 
 ### Slice 1: Vendor sign-ups. 26 Sep to 11 Oct 2026 *(proposed end)*
 
@@ -51,6 +53,7 @@ What is left before the gate is market work: vendors verified, conversations wri
 - Has any vendor asked for something the page does not do? That is the next slice.
 - Have 2 couples described, unprompted, a trust failure with a vendor?
 - Has any couple made a wedding website and shared it? How many RSVPs came in, and how many vendors were credited? (D-010)
+- How many items are in the market, and how many enquiries did they bring? How many couples asked for an anniversary reminder? (D-012)
 - Do the teardowns (Vowthread, Inawo, EventPark) show a competitor already doing this well in Lagos with paying vendors? Vowthread and Inawo also offer couple tools, so compare their wedding websites with ours.
 
 **Kill criteria (any one stops the build and sends the idea back to ideation, not a rescue):**
@@ -90,4 +93,4 @@ Name a price. Ask for it. Record every yes and no with the reason. Done when one
 
 ## 6. Out of scope until a paid transaction exists
 
-Couple accounts. Venues. Transport. Registry, gifting or bank details for cash gifts. Payments, escrow or bookings. Vendor accounts or login. Photo uploads. Guest-list import. Any city other than Lagos for the vendor directory. Any country other than Nigeria. Any ML. The couple-facing directory and reviews were brought forward by D-009, and wedding websites with RSVP by D-010; everything else on this list still waits.
+Couple accounts. Venues. Transport. A gift registry, cash gifts or bank details on wedding sites. Payments, escrow, checkout or bookings. Fees or commission from sellers. Vendor accounts or login (the private shop link of D-012 is not an account). Photo uploads. Guest-list import and per-guest invites. Automatic reminders by WhatsApp or email. Any city other than Lagos for the vendor directory. Any country other than Nigeria. Any ML. The couple-facing directory and reviews were brought forward by D-009, wedding websites with RSVP by D-010, and the market, invitation cards and hand-sent anniversary reminders by D-012; everything else on this list still waits.

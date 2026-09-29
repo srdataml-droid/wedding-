@@ -17,9 +17,9 @@ For the first 90 days (26 Sep to 25 Dec 2026):
 
 ## Status
 
-**Live: https://together-seven-nu.vercel.app** (D-009, 27 Sep 2026; D-010, 28 Sep 2026)
+**Live: https://together-seven-nu.vercel.app** (D-009 to D-012, 27 to 29 Sep 2026)
 
-A Zola or Knot type of site for Lagos. Couples make a free wedding website with RSVP and a checklist at `/start`, browse verified vendors, message them on WhatsApp and leave reviews. Vendors sign up at `/join`. Samuel verifies vendors, approves reviews and can take down wedding sites at `/admin`. What is left before the **25 Oct 2026** gate is market work: vendors verified, conversations written up, and the first couples making a website. Details and kill criteria are in `PLAN.md`. Pages and setup are in `web/README.md`.
+A Zola or Knot type of site for Lagos. Couples make a free wedding website with RSVP, a planner and an invitation card for WhatsApp at `/start`, browse verified vendors, buy from them in the market at `/market`, message them on WhatsApp and leave reviews. Couples can also ask for a yearly anniversary reminder. Vendors sign up at `/join` and, once verified, list what they sell through a private shop link. Samuel verifies vendors, sends shop links and reminders, approves reviews and can take things down at `/admin`. What is left before the **25 Oct 2026** gate is field work: vendors verified, conversations written up, and the first couples making a website. Details and kill criteria are in `PLAN.md`. Pages and setup are in `web/README.md`.
 
 ## What is in this repo
 
